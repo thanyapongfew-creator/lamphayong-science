@@ -1,0 +1,2902 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>สื่อการสอนวิทยาศาสตร์ · โรงเรียนลำพะอง</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+/* ==========================================================================
+   สื่อการสอน — ระบบ
+   โรงเรียนลำพะอง (ราษฎร์จำเริญบำรุง) / ครูธัญพงศ์ พานิชรัมย์
+   ========================================================================== */
+
+:root {
+  /* warm cream palette */
+  --bg: #FFF8EC;
+  --bg-soft: #FFEFD0;
+  --bg-card: #FFFFFF;
+  --ink: #2A1F12;
+  --ink-soft: #5C4A36;
+  --ink-mute: #9B8770;
+  --line: #EFE0C0;
+  --line-soft: #F6EBD2;
+
+  /* 5 food group colors */
+  --g1: #EF4444; /* โปรตีน เนื้อสัตว์ ไข่ นม ถั่ว */
+  --g1-soft: #FEE4E2;
+  --g1-deep: #B91C1C;
+
+  --g2: #F59E0B; /* คาร์โบไฮเดรต ข้าว แป้ง น้ำตาล */
+  --g2-soft: #FEF1C7;
+  --g2-deep: #B45309;
+
+  --g3: #10B981; /* ผัก วิตามิน เกลือแร่ */
+  --g3-soft: #D1FADF;
+  --g3-deep: #047857;
+
+  --g4: #F472B6; /* ผลไม้ วิตามิน */
+  --g4-soft: #FCE7F3;
+  --g4-deep: #BE185D;
+
+  --g5: #3B82F6; /* ไขมัน */
+  --g5-soft: #DBEAFE;
+  --g5-deep: #1D4ED8;
+
+  /* nutrient (6) extra */
+  --n-water: #06B6D4;
+  --n-water-soft: #CFFAFE;
+
+  --shadow-sm: 0 1px 2px rgba(80,55,15,.06), 0 2px 6px rgba(80,55,15,.06);
+  --shadow-md: 0 4px 12px rgba(80,55,15,.08), 0 12px 32px rgba(80,55,15,.06);
+  --shadow-lg: 0 12px 28px rgba(80,55,15,.10), 0 30px 60px rgba(80,55,15,.08);
+
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'IBM Plex Sans Thai', 'Sarabun', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root { min-height: 100vh; }
+
+h1, h2, h3, h4 { font-family: 'Mali', 'IBM Plex Sans Thai', sans-serif; font-weight: 700; margin: 0; }
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+button:focus-visible { outline: 3px solid var(--g2); outline-offset: 2px; border-radius: 8px; }
+
+/* ===== App shell ===== */
+.app {
+  min-height: 100vh;
+  background:
+    radial-gradient(900px 600px at 90% -10%, rgba(245,158,11,.10), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(16,185,129,.10), transparent 60%),
+    var(--bg);
+}
+
+/* ===== Top nav ===== */
+.topnav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 32px;
+  background: rgba(255,248,236,.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.topnav .brand {
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+}
+.topnav .brand-mark {
+  width: 44px; height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+  display: grid; place-items: center;
+  color: white;
+  font-family: 'Mali', sans-serif;
+  font-size: 22px;
+  box-shadow: var(--shadow-sm), inset 0 -3px 0 rgba(0,0,0,.08);
+}
+.topnav .brand-text { line-height: 1.15; }
+.topnav .brand-sub { font-family: 'IBM Plex Sans Thai', sans-serif; font-size: 12px; font-weight: 400; color: var(--ink-mute); }
+.topnav .crumbs {
+  font-size: 14px; color: var(--ink-mute);
+  margin-left: 4px;
+}
+.topnav .crumbs strong { color: var(--ink); font-weight: 600; }
+.topnav .spacer { flex: 1; }
+.topnav .nav-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 10px;
+  color: var(--ink-soft);
+  transition: background .15s;
+}
+.topnav .nav-btn:hover { background: var(--bg-soft); color: var(--ink); }
+.topnav .nav-btn.active { background: var(--ink); color: white; }
+.topnav .user-chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 6px 14px 6px 6px;
+  border-radius: 999px;
+  background: white;
+  border: 1px solid var(--line);
+  font-size: 14px;
+}
+.topnav .user-chip .avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--g3-soft); color: var(--g3-deep);
+  display: grid; place-items: center;
+  font-family: 'Mali', sans-serif;
+}
+
+/* ===== Generic ===== */
+.page { padding: 32px 32px 80px; max-width: 1280px; margin: 0 auto; }
+.page-narrow { max-width: 980px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s;
+  border: 1px solid transparent;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+  background: var(--ink);
+  color: white;
+  box-shadow: 0 2px 0 #000, var(--shadow-sm);
+}
+.btn-primary:hover { background: #3a2a18; }
+.btn-accent {
+  background: var(--g2);
+  color: white;
+  box-shadow: 0 3px 0 var(--g2-deep), var(--shadow-sm);
+}
+.btn-accent:hover { background: #e89009; }
+.btn-ghost {
+  background: white;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn-ghost:hover { background: var(--bg-soft); }
+
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--ink-soft);
+}
+.tag-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* ===== Home (Dashboard) ===== */
+.hero {
+  position: relative;
+  border-radius: var(--r-xl);
+  padding: 40px 44px;
+  background:
+    radial-gradient(500px 300px at 100% 0%, rgba(255,255,255,.6), transparent 60%),
+    linear-gradient(135deg, #FFD27A 0%, #F59E0B 60%, #EF4444 130%);
+  color: white;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 32px;
+}
+.hero h1 { font-size: 40px; line-height: 1.1; letter-spacing: -.5px; }
+.hero p { max-width: 540px; opacity: .95; font-size: 17px; margin-top: 12px; }
+.hero .hero-tag {
+  display: inline-block;
+  background: rgba(255,255,255,.25);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  backdrop-filter: blur(8px);
+}
+.hero .hero-deco {
+  position: absolute;
+  right: -20px; top: 50%; transform: translateY(-50%);
+  font-size: 220px;
+  opacity: .25;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,.1));
+}
+.hero .hero-foods {
+  position: absolute;
+  right: 30px; bottom: -10px;
+  display: flex; gap: -10px;
+  pointer-events: none;
+}
+.hero .hero-food {
+  font-size: 80px;
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,.15));
+}
+
+.section-title {
+  display: flex; align-items: baseline; gap: 14px;
+  margin: 36px 0 18px;
+}
+.section-title h2 { font-size: 24px; }
+.section-title .count { color: var(--ink-mute); font-size: 14px; }
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+}
+.subject-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 18px;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: transform .15s, box-shadow .15s;
+}
+.subject-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.subject-card .ico {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: grid; place-items: center;
+  font-size: 26px;
+}
+.subject-card .name { font-family: 'Mali', sans-serif; font-size: 18px; font-weight: 700; margin-top: 6px; }
+.subject-card .meta { font-size: 13px; color: var(--ink-mute); }
+.subject-card .progress { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.subject-card .pbar { flex: 1; height: 6px; background: var(--line-soft); border-radius: 999px; overflow: hidden; }
+.subject-card .pbar > div { height: 100%; border-radius: 999px; }
+.subject-card .pcount { font-size: 12px; color: var(--ink-mute); font-variant-numeric: tabular-nums; }
+
+/* Activity cards */
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+.activity-card {
+  position: relative;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 22px;
+  overflow: hidden;
+  transition: transform .15s, box-shadow .15s;
+  text-align: left;
+  width: 100%;
+}
+.activity-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.activity-card .ribbon {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--g3-soft); color: var(--g3-deep);
+  margin-bottom: 14px;
+}
+.activity-card .ribbon.new { background: var(--g1-soft); color: var(--g1-deep); }
+.activity-card .ribbon.soon { background: var(--line-soft); color: var(--ink-mute); }
+.activity-card .title { font-family: 'Mali', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; line-height: 1.25; }
+.activity-card .desc { font-size: 14px; color: var(--ink-soft); min-height: 42px; }
+.activity-card .pic {
+  margin: 14px -22px -22px;
+  height: 130px;
+  background: var(--bg-soft);
+  display: grid; place-items: center;
+  font-size: 70px;
+  position: relative;
+  overflow: hidden;
+}
+.activity-card .pic .floaters {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-size: 36px;
+}
+.activity-card .pic .floaters span {
+  position: absolute;
+  opacity: .8;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,.1));
+}
+.activity-card .meta-row {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  font-size: 12px; color: var(--ink-mute);
+  margin-top: 6px;
+}
+.activity-card .meta-row .dot { color: var(--line); }
+.activity-card.coming-soon { opacity: .65; cursor: not-allowed; }
+
+/* Quick stats strip */
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 16px 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.stat-card .ico {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: grid; place-items: center;
+  font-size: 22px;
+}
+.stat-card .num { font-family: 'Mali', sans-serif; font-size: 22px; font-weight: 700; line-height: 1; }
+.stat-card .lab { font-size: 12px; color: var(--ink-mute); margin-top: 2px; }
+
+/* ===== Game Setup ===== */
+.setup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.setup-panel {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 24px;
+}
+.setup-panel h3 { font-size: 20px; margin-bottom: 6px; }
+.setup-panel .subtitle { color: var(--ink-mute); font-size: 14px; margin-bottom: 18px; }
+
+.mode-toggle, .diff-toggle {
+  display: grid;
+  gap: 10px;
+}
+.mode-opt {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px;
+  border: 2px solid var(--line);
+  border-radius: var(--r-md);
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: all .15s;
+}
+.mode-opt:hover { background: var(--bg-soft); }
+.mode-opt.active { border-color: var(--g2); background: var(--g2-soft); }
+.mode-opt .em { font-size: 32px; line-height: 1; }
+.mode-opt .name { font-family: 'Mali', sans-serif; font-size: 17px; font-weight: 700; }
+.mode-opt .desc { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+.mode-opt .check {
+  margin-left: auto;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: white; border: 2px solid var(--line);
+  display: grid; place-items: center; color: white;
+}
+.mode-opt.active .check { background: var(--g2); border-color: var(--g2); }
+
+.diff-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.diff-opt {
+  border: 2px solid var(--line);
+  background: white;
+  border-radius: var(--r-md);
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .15s;
+}
+.diff-opt:hover { background: var(--bg-soft); }
+.diff-opt.active { border-color: var(--g3); background: var(--g3-soft); }
+.diff-opt .em { font-size: 28px; }
+.diff-opt .name { font-family: 'Mali', sans-serif; font-weight: 700; margin-top: 4px; font-size: 15px; }
+.diff-opt .meta { font-size: 11px; color: var(--ink-mute); margin-top: 2px; }
+.diff-opt.active .meta { color: var(--g3-deep); }
+
+.setup-cta { display: flex; gap: 12px; align-items: center; margin-top: 24px; }
+.setup-cta .btn-accent { padding: 16px 28px; font-size: 17px; }
+.player-input {
+  flex: 1;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 2px solid var(--line);
+  font-size: 15px;
+  background: white;
+  font-family: inherit;
+  color: var(--ink);
+}
+.player-input:focus { outline: none; border-color: var(--g2); }
+
+.preview-pane {
+  background: linear-gradient(135deg, #FFF8EC 0%, #FFEFD0 100%);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  border: 1px solid var(--line);
+}
+.preview-pane h3 { font-size: 18px; margin-bottom: 12px; }
+.basket-preview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.basket-mini {
+  background: white;
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex; align-items: center; gap: 8px;
+  border: 2px solid;
+  font-size: 13px;
+}
+.basket-mini .em { font-size: 20px; }
+.basket-mini .nm { font-weight: 600; font-size: 13px; line-height: 1.2; }
+.basket-mini .nm small { display:block; font-weight: 400; color: var(--ink-mute); font-size: 11px; }
+
+.rules-list { list-style: none; padding: 0; margin: 0; }
+.rules-list li {
+  display: flex; gap: 10px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.rules-list li::before {
+  content: '✓';
+  color: var(--g3-deep);
+  background: var(--g3-soft);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* ===== GAME ===== */
+.game-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 14px 24px;
+  background: white;
+  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 40;
+}
+.game-stats { display: flex; gap: 12px; align-items: center; }
+.game-stat {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px;
+  background: var(--bg-soft);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.game-stat.score { background: var(--g2-soft); color: var(--g2-deep); }
+.game-stat.time { background: var(--g5-soft); color: var(--g5-deep); font-variant-numeric: tabular-nums; }
+.game-stat.time.danger { background: var(--g1-soft); color: var(--g1-deep); animation: pulse .8s infinite; }
+.game-stat.streak { background: var(--g4-soft); color: var(--g4-deep); }
+.game-stat .em { font-size: 18px; }
+@keyframes pulse { 0%, 100% { transform: scale(1);} 50% { transform: scale(1.05);} }
+
+.progress-pill {
+  display: flex; align-items: center; gap: 12px;
+}
+.progress-pill .num {
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.progress-pill .bar {
+  width: 160px; height: 8px;
+  background: var(--line-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-pill .bar > div {
+  height: 100%;
+  background: linear-gradient(90deg, var(--g2), var(--g1));
+  transition: width .3s ease;
+}
+
+.icon-btn {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid var(--line);
+  display: inline-grid; place-items: center;
+  font-size: 18px;
+  color: var(--ink-soft);
+}
+.icon-btn:hover { background: var(--bg-soft); }
+.icon-btn.muted { opacity: .5; }
+
+.game-stage {
+  padding: 28px 24px 200px;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.game-prompt {
+  font-family: 'Mali', sans-serif;
+  font-size: 22px;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.game-prompt strong { color: var(--ink); }
+
+.food-card {
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 28px;
+  padding: 24px 36px;
+  display: flex; flex-direction: column; align-items: center;
+  box-shadow: var(--shadow-md);
+  user-select: none;
+  cursor: grab;
+  touch-action: none;
+  transition: transform .15s ease, box-shadow .15s ease, opacity .2s;
+  min-width: 240px;
+  position: relative;
+  will-change: transform;
+}
+.food-card:hover { transform: translateY(-2px) rotate(-1deg); box-shadow: var(--shadow-lg); }
+.food-card.dragging { cursor: grabbing; box-shadow: var(--shadow-lg); transform: scale(1.04) rotate(-2deg); z-index: 100; opacity: .96; }
+.food-card.correct { animation: pop-correct .5s ease forwards; }
+.food-card.wrong { animation: shake .4s ease; border-color: var(--g1); }
+.food-card .em { font-size: 96px; line-height: 1; filter: drop-shadow(0 6px 8px rgba(0,0,0,.12)); }
+.food-card .name {
+  font-family: 'Mali', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 10px;
+  color: var(--ink);
+}
+.food-card .hint {
+  font-size: 12px;
+  color: var(--ink-mute);
+  margin-top: 4px;
+}
+@keyframes pop-correct {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.15) rotate(4deg); background: var(--g3-soft); border-color: var(--g3); }
+  100% { transform: scale(.8); opacity: 0; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px) rotate(-2deg); }
+  40% { transform: translateX(10px) rotate(2deg); }
+  60% { transform: translateX(-8px) rotate(-1deg); }
+  80% { transform: translateX(8px) rotate(1deg); }
+}
+
+/* Baskets dock */
+.baskets-dock {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  padding: 20px 24px 24px;
+  background: linear-gradient(to top, rgba(255,248,236,.95) 60%, rgba(255,248,236,0));
+  z-index: 30;
+}
+.baskets-row {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(var(--basket-count, 5), 1fr);
+  gap: 12px;
+}
+.basket {
+  background: white;
+  border: 3px dashed var(--basket-color, var(--line));
+  border-radius: 22px;
+  padding: 14px 10px 16px;
+  text-align: center;
+  transition: all .15s;
+  min-height: 130px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative;
+}
+.basket .em {
+  font-size: 42px;
+  line-height: 1;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,.1));
+}
+.basket .lab {
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 6px;
+  color: var(--basket-color, var(--ink));
+  line-height: 1.2;
+}
+.basket .sub {
+  font-size: 11px;
+  color: var(--ink-mute);
+  margin-top: 2px;
+  font-weight: 400;
+}
+.basket .num-badge {
+  position: absolute;
+  top: -10px; left: 50%; transform: translateX(-50%);
+  background: var(--basket-color, var(--ink));
+  color: white;
+  font-family: 'Mali', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+}
+.basket.hover {
+  transform: translateY(-6px) scale(1.04);
+  border-style: solid;
+  background: var(--basket-soft, var(--bg-soft));
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+}
+.basket.hover .em { transform: scale(1.15); }
+
+/* Feedback popup */
+.feedback {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 28px;
+  padding: 32px 40px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  z-index: 1000;
+  max-width: 480px;
+  border: 3px solid;
+  animation: popup-in .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popup-in {
+  0% { transform: translate(-50%, -50%) scale(.7); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+.feedback.correct { border-color: var(--g3); }
+.feedback.wrong { border-color: var(--g1); }
+.feedback .em { font-size: 64px; line-height: 1; }
+.feedback h3 { font-family: 'Mali', sans-serif; font-size: 26px; margin-top: 8px; }
+.feedback.correct h3 { color: var(--g3-deep); }
+.feedback.wrong h3 { color: var(--g1-deep); }
+.feedback .body { font-size: 15px; color: var(--ink-soft); margin: 10px 0 4px; line-height: 1.5; }
+.feedback .body strong { color: var(--ink); }
+.feedback .next-btn { margin-top: 20px; }
+
+/* Floating points */
+.point-pop {
+  position: fixed;
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  pointer-events: none;
+  z-index: 200;
+  animation: point-fly 1s ease-out forwards;
+  text-shadow: 0 2px 0 rgba(0,0,0,.1);
+}
+.point-pop.plus { color: var(--g3-deep); }
+.point-pop.minus { color: var(--g1-deep); }
+@keyframes point-fly {
+  0% { transform: translate(-50%, -50%) scale(.7); opacity: 0; }
+  20% { transform: translate(-50%, -100%) scale(1.2); opacity: 1; }
+  100% { transform: translate(-50%, -180%) scale(1); opacity: 0; }
+}
+
+/* ===== BATTLE MODE ===== */
+.battle-topbar {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: center;
+  padding: 10px 16px;
+  background: white;
+  border-bottom: 1px solid var(--line);
+  gap: 12px;
+}
+.battle-vs-banner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+.bvs-name { display: flex; align-items: center; gap: 8px; }
+.battle-vs-banner > .bvs-name:first-child { justify-content: flex-end; }
+.bvs-vs {
+  background: var(--ink);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 999px;
+  letter-spacing: 1px;
+}
+.leader-tag {
+  display: inline-block;
+  font-size: 11px;
+  background: var(--g2);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-weight: 600;
+  animation: pulse .8s infinite;
+}
+.battle-timer-wrap { display: flex; gap: 8px; align-items: center; }
+
+.battle-arena {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 4px 1fr;
+  min-height: calc(100vh - 60px);
+  background: var(--bg);
+}
+
+.battle-divider {
+  background: linear-gradient(to bottom, transparent, var(--line) 10%, var(--line) 90%, transparent);
+  position: relative;
+}
+.battle-vs-circle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: white;
+  display: grid; place-items: center;
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 1px;
+  box-shadow: var(--shadow-md);
+  border: 4px solid white;
+  z-index: 5;
+}
+
+.battle-side {
+  display: flex;
+  flex-direction: column;
+  border-top: 4px solid;
+  position: relative;
+  overflow: hidden;
+}
+.battle-side-left {
+  background: linear-gradient(135deg, rgba(59,130,246,.05), rgba(59,130,246,.0));
+}
+.battle-side-right {
+  background: linear-gradient(225deg, rgba(239,68,68,.05), rgba(239,68,68,.0));
+}
+
+.battle-side-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.battle-player {
+  display: flex; align-items: center; gap: 12px;
+}
+.battle-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 20px;
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+.battle-name {
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.1;
+}
+.battle-pscore {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-top: 4px;
+  font-size: 13px;
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+}
+.bs-score { font-family: 'Mali', sans-serif; font-weight: 700; }
+.bs-streak { font-weight: 600; }
+.bs-progress { color: var(--ink-mute); font-variant-numeric: tabular-nums; }
+
+.battle-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 12px;
+  min-height: 240px;
+  position: relative;
+}
+
+.battle-food {
+  min-width: 0;
+  padding: 18px 28px;
+}
+.battle-food .em { font-size: 80px; }
+.battle-food .name { font-size: 22px; }
+
+.battle-food.flash-correct { animation: battle-correct .6s ease forwards; }
+.battle-food.flash-wrong { animation: battle-wrong .5s ease; }
+@keyframes battle-correct {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.1); background: var(--g3-soft); border-color: var(--g3); }
+  100% { transform: scale(.6); opacity: 0; }
+}
+@keyframes battle-wrong {
+  0%, 100% { transform: translateX(0); border-color: var(--g1); background: var(--g1-soft); }
+  25% { transform: translateX(-12px) rotate(-2deg); }
+  75% { transform: translateX(12px) rotate(2deg); }
+}
+
+.battle-flash {
+  position: absolute;
+  bottom: 14px; left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 16px;
+  padding: 12px 18px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  border: 2px solid;
+  max-width: 90%;
+  animation: flash-in .25s ease;
+}
+.battle-flash.flash-correct { border-color: var(--g3); }
+.battle-flash.flash-wrong { border-color: var(--g1); }
+.battle-flash .bf-em { font-size: 28px; line-height: 1; }
+.battle-flash .bf-text { font-size: 13px; color: var(--ink-soft); margin-top: 2px; line-height: 1.3; }
+.battle-flash .bf-delta { font-family: 'Mali', sans-serif; font-weight: 700; font-size: 16px; margin-top: 4px; }
+@keyframes flash-in {
+  0% { opacity: 0; transform: translate(-50%, 10px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.battle-baskets {
+  display: grid;
+  grid-template-columns: repeat(var(--basket-count, 5), 1fr);
+  gap: 6px;
+  padding: 10px 12px 16px;
+  background: rgba(255,255,255,.6);
+  border-top: 1px solid var(--line-soft);
+}
+.battle-basket {
+  border-radius: 16px;
+  padding: 10px 4px 12px;
+  min-height: 90px;
+  border-width: 2px;
+}
+.battle-basket .em { font-size: 30px; }
+.battle-basket .lab { font-size: 11px; line-height: 1.15; }
+.battle-basket .sub { display: none; }
+.battle-basket .num-badge { font-size: 10px; padding: 1px 7px; top: -8px; }
+
+.battle-finished {
+  text-align: center;
+}
+.battle-finished-text {
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  margin-top: 8px;
+}
+.battle-finished-sub {
+  font-size: 14px;
+  color: var(--ink-mute);
+  margin-top: 4px;
+}
+
+.battle-countdown-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(42,31,18,.8);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+}
+.battle-countdown-card {
+  text-align: center;
+  color: white;
+}
+.bc-label {
+  font-family: 'Mali', sans-serif;
+  font-size: 22px;
+  opacity: .85;
+}
+.bc-num {
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 180px;
+  line-height: 1;
+  background: linear-gradient(135deg, #FFD27A, #EF4444);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: bc-pop .6s cubic-bezier(.34,1.56,.64,1);
+  margin: 10px 0;
+}
+@keyframes bc-pop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.bc-vs {
+  font-family: 'Mali', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Battle results */
+.battle-result-cards {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+.br-card {
+  background: white;
+  border-radius: var(--r-xl);
+  padding: 28px 22px;
+  text-align: center;
+  border: 3px solid var(--line);
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column; align-items: center;
+}
+.br-card.won {
+  border-color: var(--g2);
+  background: linear-gradient(180deg, #FFF8EC 0%, white 60%);
+  transform: scale(1.03);
+}
+.br-card.lost { opacity: .75; }
+.br-card.draw { border-color: var(--g3); }
+.br-avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 36px;
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+.br-name { font-family: 'Mali', sans-serif; font-weight: 700; font-size: 18px; margin-top: 12px; }
+.br-crown { font-family: 'Mali', sans-serif; font-weight: 700; font-size: 16px; color: var(--g2-deep); margin-top: 4px; }
+.br-score { font-family: 'Mali', sans-serif; font-weight: 700; font-size: 64px; line-height: 1; margin-top: 12px; background: linear-gradient(135deg, #F59E0B, #EF4444); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.br-of { color: var(--ink-mute); font-size: 13px; }
+.br-mini-stats { width: 100%; margin-top: 18px; display: flex; flex-direction: column; gap: 6px; }
+.br-mini-stats > div { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 12px; background: var(--bg-soft); border-radius: 8px; }
+.br-mini-stats span { color: var(--ink-mute); }
+.br-mini-stats strong { color: var(--ink); font-family: 'Mali', sans-serif; }
+
+.br-vs-mid {
+  font-size: 48px;
+  align-self: center;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,.15));
+}
+
+/* Setup: play mode chooser */
+.play-mode-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.play-mode-opt {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px;
+  border: 2px solid var(--line);
+  border-radius: var(--r-md);
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  transition: all .15s;
+}
+.play-mode-opt:hover { background: var(--bg-soft); }
+.play-mode-opt.active { border-color: var(--g1); background: var(--g1-soft); }
+.play-mode-opt .em { font-size: 28px; line-height: 1; }
+.play-mode-opt .name { font-family: 'Mali', sans-serif; font-weight: 700; font-size: 15px; }
+.play-mode-opt .desc { font-size: 12px; color: var(--ink-soft); margin-top: 2px; line-height: 1.3; }
+
+/* ===== RESULTS ===== */
+.results-hero {
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+.results-hero h1 { font-size: 40px; }
+.results-hero .sub { color: var(--ink-soft); font-size: 16px; margin-top: 6px; }
+
+.score-card {
+  background: white;
+  border-radius: var(--r-xl);
+  padding: 36px;
+  margin: 20px auto;
+  max-width: 720px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  border: 1px solid var(--line);
+}
+.score-big {
+  font-family: 'Mali', sans-serif;
+  font-size: 92px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #F59E0B, #EF4444);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1;
+}
+.score-of { color: var(--ink-mute); font-size: 18px; margin-top: 4px; }
+.star-row {
+  display: flex; justify-content: center; gap: 8px;
+  margin: 18px 0;
+  font-size: 48px;
+}
+.star { filter: grayscale(1); opacity: .3; transition: all .3s; }
+.star.lit { filter: grayscale(0); opacity: 1; animation: star-pop .5s cubic-bezier(.34,1.56,.64,1) backwards; }
+.star.lit:nth-child(1) { animation-delay: .1s; }
+.star.lit:nth-child(2) { animation-delay: .3s; }
+.star.lit:nth-child(3) { animation-delay: .5s; }
+@keyframes star-pop {
+  0% { transform: scale(0) rotate(-180deg); }
+  60% { transform: scale(1.3) rotate(10deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.result-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+.result-stat {
+  background: var(--bg-soft);
+  border-radius: 14px;
+  padding: 14px;
+}
+.result-stat .num { font-family: 'Mali', sans-serif; font-weight: 700; font-size: 24px; }
+.result-stat .lab { font-size: 12px; color: var(--ink-mute); }
+
+.review-list {
+  max-width: 880px;
+  margin: 32px auto 0;
+}
+.review-list h3 { font-size: 22px; margin-bottom: 14px; padding-left: 4px; }
+.review-item {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.review-item .em { font-size: 36px; }
+.review-item .nm { font-family: 'Mali', sans-serif; font-weight: 700; font-size: 16px; }
+.review-item .ans { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+.review-item .ans .right { color: var(--g3-deep); font-weight: 600; }
+.review-item .ans .wrong { color: var(--g1-deep); font-weight: 600; text-decoration: line-through; }
+.review-item .tag-ok { background: var(--g3-soft); color: var(--g3-deep); }
+.review-item .tag-bad { background: var(--g1-soft); color: var(--g1-deep); }
+
+.results-cta { display: flex; gap: 12px; justify-content: center; margin-top: 28px; }
+
+/* ===== Leaderboard ===== */
+.leader-table {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.leader-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 90px 110px 110px;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 15px;
+}
+.leader-row.head { background: var(--bg-soft); font-weight: 600; font-size: 13px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: .5px; }
+.leader-row:last-child { border-bottom: none; }
+.leader-row .rank {
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--ink-mute);
+}
+.leader-row.gold .rank { color: #D97706; }
+.leader-row.silver .rank { color: #9CA3AF; }
+.leader-row.bronze .rank { color: #B45309; }
+.leader-row .student { display: flex; align-items: center; gap: 12px; }
+.leader-row .av {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 18px;
+  font-family: 'Mali', sans-serif;
+}
+.leader-row .score-cell { font-family: 'Mali', sans-serif; font-weight: 700; }
+
+/* ===== Teacher dashboard ===== */
+.teacher-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.teacher-side {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 18px;
+}
+.teacher-side h4 { font-family: 'Mali', sans-serif; font-size: 15px; color: var(--ink-mute); margin-bottom: 10px; font-weight: 600; }
+.class-pill {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.class-pill:hover { background: var(--bg-soft); }
+.class-pill.active { background: var(--ink); color: white; }
+.class-pill .ct { float: right; opacity: .6; font-size: 13px; }
+
+.teacher-main { display: flex; flex-direction: column; gap: 16px; }
+.t-row {
+  display: grid;
+  grid-template-columns: 48px 1.5fr 1fr 1fr 1fr 100px;
+  align-items: center;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  font-size: 14px;
+}
+.t-row.head {
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding: 0 16px 4px;
+}
+.t-row .nm { font-weight: 600; }
+.t-row .sm { font-size: 12px; color: var(--ink-mute); margin-top: 2px; }
+.t-row .av {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--g2-soft); color: var(--g2-deep);
+  display: grid; place-items: center;
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+}
+.t-row .score-mini {
+  display: inline-flex; gap: 4px;
+  font-family: 'Mali', sans-serif;
+  font-weight: 700;
+}
+.t-row .bar-mini {
+  display: inline-block; width: 80px; height: 8px;
+  background: var(--line-soft); border-radius: 999px;
+  margin-left: 6px; overflow: hidden; vertical-align: middle;
+}
+.t-row .bar-mini > div { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--g3), var(--g2)); }
+
+/* ===== Footer credit ===== */
+.credit {
+  text-align: center;
+  padding: 28px 20px;
+  font-size: 12px;
+  color: var(--ink-mute);
+}
+.credit strong { color: var(--ink-soft); font-weight: 600; }
+
+/* ===== Responsive ===== */
+@media (max-width: 880px) {
+  /* Battle responsive */
+  .battle-topbar { grid-template-columns: 40px 1fr auto; padding: 8px 10px; gap: 6px; }
+  .battle-vs-banner { font-size: 13px; gap: 8px; }
+  .bvs-vs { font-size: 11px; padding: 3px 10px; }
+  .battle-vs-circle { width: 40px; height: 40px; font-size: 13px; border-width: 3px; }
+  .battle-side-head { padding: 8px 10px; }
+  .battle-name { font-size: 13px; }
+  .battle-pscore { font-size: 11px; gap: 6px; }
+  .battle-avatar { width: 32px; height: 32px; font-size: 16px; }
+  .battle-food { padding: 12px 18px; min-width: 0; }
+  .battle-food .em { font-size: 56px; }
+  .battle-food .name { font-size: 16px; }
+  .battle-stage { padding: 10px 6px; min-height: 180px; }
+  .battle-baskets { padding: 6px 4px 10px; gap: 3px; }
+  .battle-basket { padding: 6px 2px 8px; min-height: 64px; border-radius: 10px; }
+  .battle-basket .em { font-size: 22px; }
+  .battle-basket .lab { font-size: 9px; }
+  .battle-basket .num-badge { font-size: 9px; padding: 1px 5px; }
+  .bc-num { font-size: 110px; }
+  .bc-label { font-size: 16px; }
+  .bc-vs { font-size: 14px; }
+  .battle-result-cards { grid-template-columns: 1fr; gap: 12px; }
+  .br-vs-mid { font-size: 32px; }
+  .br-card { padding: 18px 16px; }
+  .br-score { font-size: 48px; }
+  .battle-flash { padding: 8px 12px; }
+  .battle-flash .bf-em { font-size: 22px; }
+  .battle-flash .bf-text { font-size: 11px; }
+  .battle-flash .bf-delta { font-size: 14px; }
+  .play-mode-row { grid-template-columns: 1fr; }
+
+  .topnav { padding: 12px 16px; flex-wrap: wrap; }
+  .topnav .crumbs { display: none; }
+  .page { padding: 20px 16px 80px; }
+  .hero { padding: 28px 24px; }
+  .hero h1 { font-size: 28px; }
+  .hero .hero-deco { font-size: 140px; opacity: .15; }
+  .stats-strip { grid-template-columns: repeat(2, 1fr); }
+  .setup-grid { grid-template-columns: 1fr; }
+  .teacher-grid { grid-template-columns: 1fr; }
+  .leader-row { grid-template-columns: 40px 1fr 70px 80px; padding: 12px 14px; font-size: 13px; }
+  .leader-row .col-time { display: none; }
+  .t-row { grid-template-columns: 36px 1.3fr 1fr 80px; font-size: 13px; }
+  .t-row .col-acc, .t-row .col-time { display: none; }
+  .result-stats { grid-template-columns: repeat(2, 1fr); }
+  .game-header { grid-template-columns: 1fr; gap: 10px; padding: 12px 14px; }
+  .game-header .progress-pill { justify-content: center; }
+  .progress-pill .bar { width: 120px; }
+  .baskets-row { grid-template-columns: repeat(var(--basket-count, 5), 1fr); gap: 6px; }
+  .basket { border-radius: 16px; padding: 10px 6px; min-height: 92px; }
+  .basket .em { font-size: 28px; }
+  .basket .lab { font-size: 11px; }
+  .basket .sub { display: none; }
+  .food-card { padding: 18px 28px; min-width: 200px; }
+  .food-card .em { font-size: 72px; }
+  .food-card .name { font-size: 20px; }
+}
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+// ==========================================================================
+// ข้อมูลอาหารและสารอาหาร — สำหรับเกมสารอาหาร ป.6
+// อ้างอิงตามหลักสูตรแกนกลาง: อาหารหลัก 5 หมู่
+// ==========================================================================
+
+// 5 หมู่อาหาร
+window.FOOD_GROUPS = [
+  {
+    id: 'g1',
+    no: 1,
+    name: 'เนื้อสัตว์ ไข่ นม ถั่ว',
+    short: 'หมู่ 1',
+    func: 'ช่วยให้ร่างกายเจริญเติบโต ซ่อมแซมส่วนที่สึกหรอ',
+    em: '🥚',
+    color: '#EF4444',
+    soft: '#FEE4E2',
+    deep: '#B91C1C',
+  },
+  {
+    id: 'g2',
+    no: 2,
+    name: 'ข้าว แป้ง น้ำตาล เผือก มัน',
+    short: 'หมู่ 2',
+    func: 'ให้พลังงาน ทำให้ร่างกายอบอุ่น',
+    em: '🍚',
+    color: '#F59E0B',
+    soft: '#FEF1C7',
+    deep: '#B45309',
+  },
+  {
+    id: 'g3',
+    no: 3,
+    name: 'พืชผัก',
+    short: 'หมู่ 3',
+    func: 'ให้วิตามินและเกลือแร่ ช่วยให้ร่างกายแข็งแรง',
+    em: '🥦',
+    color: '#10B981',
+    soft: '#D1FADF',
+    deep: '#047857',
+  },
+  {
+    id: 'g4',
+    no: 4,
+    name: 'ผลไม้',
+    short: 'หมู่ 4',
+    func: 'ให้วิตามินและเกลือแร่ ช่วยให้ร่างกายแข็งแรง',
+    em: '🍎',
+    color: '#F472B6',
+    soft: '#FCE7F3',
+    deep: '#BE185D',
+  },
+  {
+    id: 'g5',
+    no: 5,
+    name: 'ไขมันจากพืชและสัตว์',
+    short: 'หมู่ 5',
+    func: 'ให้พลังงานและความอบอุ่นแก่ร่างกาย',
+    em: '🧈',
+    color: '#3B82F6',
+    soft: '#DBEAFE',
+    deep: '#1D4ED8',
+  },
+];
+
+// 6 ประเภทสารอาหาร
+window.NUTRIENTS = [
+  { id: 'n1', name: 'คาร์โบไฮเดรต', em: '🍞', color: '#F59E0B', soft: '#FEF1C7', deep: '#B45309', func: 'ให้พลังงานหลักแก่ร่างกาย' },
+  { id: 'n2', name: 'โปรตีน', em: '🍗', color: '#EF4444', soft: '#FEE4E2', deep: '#B91C1C', func: 'สร้างและซ่อมแซมเนื้อเยื่อ' },
+  { id: 'n3', name: 'ไขมัน', em: '🥑', color: '#84CC16', soft: '#ECFCCB', deep: '#4D7C0F', func: 'ให้พลังงานสูง สะสมเป็นพลังงานสำรอง' },
+  { id: 'n4', name: 'วิตามิน', em: '🍋', color: '#F472B6', soft: '#FCE7F3', deep: '#BE185D', func: 'ช่วยให้ร่างกายทำงานได้ปกติ' },
+  { id: 'n5', name: 'เกลือแร่', em: '🥬', color: '#10B981', soft: '#D1FADF', deep: '#047857', func: 'เป็นส่วนประกอบของกระดูก ฟัน เลือด' },
+  { id: 'n6', name: 'น้ำ', em: '💧', color: '#06B6D4', soft: '#CFFAFE', deep: '#0E7490', func: 'ช่วยให้ระบบในร่างกายทำงานได้' },
+];
+
+// อาหารแต่ละชนิด: แต่ละชิ้นมี group (หมู่) และ nutrient (สารอาหารหลัก)
+window.FOODS = [
+  // หมู่ 1 - โปรตีน
+  { em: '🥚', name: 'ไข่ไก่', group: 'g1', nutrient: 'n2', tip: 'ไข่อุดมด้วยโปรตีนคุณภาพสูง ช่วยสร้างกล้ามเนื้อ' },
+  { em: '🍗', name: 'ไก่ทอด', group: 'g1', nutrient: 'n2', tip: 'เนื้อไก่ให้โปรตีน ช่วยเจริญเติบโต' },
+  { em: '🥩', name: 'เนื้อวัว', group: 'g1', nutrient: 'n2', tip: 'เนื้อวัวเป็นแหล่งโปรตีนและธาตุเหล็ก' },
+  { em: '🐟', name: 'ปลา', group: 'g1', nutrient: 'n2', tip: 'ปลาให้โปรตีนและไขมันดี (โอเมก้า-3)' },
+  { em: '🦐', name: 'กุ้ง', group: 'g1', nutrient: 'n2', tip: 'กุ้งเป็นอาหารทะเลที่อุดมด้วยโปรตีน' },
+  { em: '🥛', name: 'นมสด', group: 'g1', nutrient: 'n2', tip: 'นมให้โปรตีนและแคลเซียม สร้างกระดูกและฟัน' },
+  { em: '🧀', name: 'ชีส', group: 'g1', nutrient: 'n2', tip: 'ชีสทำจากนม ให้โปรตีนและแคลเซียม' },
+  { em: '🫘', name: 'ถั่วแดง', group: 'g1', nutrient: 'n2', tip: 'ถั่วเป็นโปรตีนจากพืช เหมาะเป็นโปรตีนทางเลือก' },
+  { em: '🥜', name: 'ถั่วลิสง', group: 'g1', nutrient: 'n2', tip: 'ถั่วลิสงให้โปรตีนและไขมันดี' },
+
+  // หมู่ 2 - คาร์โบไฮเดรต
+  { em: '🍚', name: 'ข้าวสวย', group: 'g2', nutrient: 'n1', tip: 'ข้าวให้คาร์โบไฮเดรต ซึ่งเป็นแหล่งพลังงานหลัก' },
+  { em: '🍞', name: 'ขนมปัง', group: 'g2', nutrient: 'n1', tip: 'ขนมปังทำจากแป้งสาลี ให้พลังงาน' },
+  { em: '🍜', name: 'ก๋วยเตี๋ยว', group: 'g2', nutrient: 'n1', tip: 'เส้นก๋วยเตี๋ยวทำจากแป้ง ให้คาร์โบไฮเดรต' },
+  { em: '🌽', name: 'ข้าวโพด', group: 'g2', nutrient: 'n1', tip: 'ข้าวโพดเป็นธัญพืชให้พลังงาน' },
+  { em: '🍠', name: 'มันเทศ', group: 'g2', nutrient: 'n1', tip: 'มันเทศให้คาร์โบไฮเดรตและใยอาหาร' },
+  { em: '🥔', name: 'มันฝรั่ง', group: 'g2', nutrient: 'n1', tip: 'มันฝรั่งเป็นแหล่งแป้งให้พลังงาน' },
+  { em: '🥖', name: 'บาแกตต์', group: 'g2', nutrient: 'n1', tip: 'บาแกตต์ทำจากแป้ง ให้คาร์โบไฮเดรต' },
+  { em: '🍝', name: 'พาสต้า', group: 'g2', nutrient: 'n1', tip: 'พาสต้าทำจากแป้งสาลี ให้พลังงาน' },
+
+  // หมู่ 3 - ผัก
+  { em: '🥦', name: 'บรอกโคลี', group: 'g3', nutrient: 'n4', tip: 'บรอกโคลีอุดมด้วยวิตามินซีและใยอาหาร' },
+  { em: '🥬', name: 'ผักคะน้า', group: 'g3', nutrient: 'n5', tip: 'ผักใบเขียวให้แคลเซียมและธาตุเหล็ก' },
+  { em: '🥕', name: 'แครอท', group: 'g3', nutrient: 'n4', tip: 'แครอทให้วิตามินเอ ช่วยบำรุงสายตา' },
+  { em: '🍅', name: 'มะเขือเทศ', group: 'g3', nutrient: 'n4', tip: 'มะเขือเทศมีไลโคปีนและวิตามินซี' },
+  { em: '🥒', name: 'แตงกวา', group: 'g3', nutrient: 'n6', tip: 'แตงกวามีน้ำสูง ช่วยให้ร่างกายสดชื่น' },
+  { em: '🌶️', name: 'พริก', group: 'g3', nutrient: 'n4', tip: 'พริกมีวิตามินซีสูงกว่าผลไม้หลายชนิด' },
+  { em: '🍆', name: 'มะเขือยาว', group: 'g3', nutrient: 'n5', tip: 'มะเขือมีใยอาหารและสารต้านอนุมูลอิสระ' },
+  { em: '🧅', name: 'หอมใหญ่', group: 'g3', nutrient: 'n5', tip: 'หอมมีสารพฤกษเคมีและเกลือแร่' },
+
+  // หมู่ 4 - ผลไม้
+  { em: '🍎', name: 'แอปเปิล', group: 'g4', nutrient: 'n4', tip: 'แอปเปิลมีใยอาหารและวิตามินซี' },
+  { em: '🍌', name: 'กล้วย', group: 'g4', nutrient: 'n4', tip: 'กล้วยให้พลังงานและโพแทสเซียมสูง' },
+  { em: '🍊', name: 'ส้ม', group: 'g4', nutrient: 'n4', tip: 'ส้มมีวิตามินซีสูง ช่วยภูมิคุ้มกัน' },
+  { em: '🍉', name: 'แตงโม', group: 'g4', nutrient: 'n6', tip: 'แตงโมมีน้ำมากกว่า 90% ดับกระหายได้ดี' },
+  { em: '🍇', name: 'องุ่น', group: 'g4', nutrient: 'n4', tip: 'องุ่นมีสารต้านอนุมูลอิสระและวิตามิน' },
+  { em: '🍓', name: 'สตรอว์เบอร์รี', group: 'g4', nutrient: 'n4', tip: 'สตรอว์เบอร์รีมีวิตามินซีสูง' },
+  { em: '🥭', name: 'มะม่วง', group: 'g4', nutrient: 'n4', tip: 'มะม่วงสุกมีวิตามินเอสูง บำรุงสายตา' },
+  { em: '🍍', name: 'สับปะรด', group: 'g4', nutrient: 'n4', tip: 'สับปะรดมีเอนไซม์ช่วยย่อยและวิตามินซี' },
+  { em: '🥝', name: 'กีวี', group: 'g4', nutrient: 'n4', tip: 'กีวีมีวิตามินซีสูงกว่าส้ม' },
+
+  // หมู่ 5 - ไขมัน
+  { em: '🧈', name: 'เนย', group: 'g5', nutrient: 'n3', tip: 'เนยให้ไขมันและพลังงานสูง ควรกินแต่พอดี' },
+  { em: '🫒', name: 'น้ำมันมะกอก', group: 'g5', nutrient: 'n3', tip: 'น้ำมันมะกอกเป็นไขมันดีจากพืช' },
+  { em: '🥥', name: 'มะพร้าว', group: 'g5', nutrient: 'n3', tip: 'มะพร้าวให้ไขมันและพลังงานสูง' },
+  { em: '🥑', name: 'อะโวคาโด', group: 'g5', nutrient: 'n3', tip: 'อะโวคาโดมีไขมันดี ช่วยลดคอเลสเตอรอล' },
+  { em: '🍯', name: 'น้ำมันงา', group: 'g5', nutrient: 'n3', tip: 'น้ำมันงาเป็นไขมันจากพืช ใช้ปรุงอาหาร' },
+];
+
+// ระดับความยาก
+window.DIFFICULTIES = {
+  easy: { id: 'easy', name: 'ง่าย', em: '🌱', questions: 10, time: 0, label: '10 ข้อ · ไม่จับเวลา' },
+  medium: { id: 'medium', name: 'ปานกลาง', em: '🌳', questions: 15, time: 180, label: '15 ข้อ · 3 นาที' },
+  hard: { id: 'hard', name: 'ยาก', em: '🔥', questions: 20, time: 120, label: '20 ข้อ · 2 นาที' },
+};
+
+// ตัวอย่างนักเรียน (สำหรับ Leaderboard และ Teacher Dashboard)
+window.STUDENTS = [
+  { name: 'ด.ญ. ปุณยาพร แสงทอง', cls: 'ป.6/1', score: 195, time: 142, acc: 95, em: '🌟' },
+  { name: 'ด.ช. ธนกฤต ใจดี',     cls: 'ป.6/1', score: 185, time: 156, acc: 92, em: '🦊' },
+  { name: 'ด.ญ. ณัฐกานต์ ศรีสุข', cls: 'ป.6/2', score: 175, time: 168, acc: 88, em: '🐱' },
+  { name: 'ด.ช. ภูริภัทร พงษ์ธรรม', cls: 'ป.6/2', score: 170, time: 174, acc: 86, em: '🦁' },
+  { name: 'ด.ญ. กัญญาณัฐ บุญมี',   cls: 'ป.6/1', score: 160, time: 180, acc: 82, em: '🐰' },
+  { name: 'ด.ช. กิตติพงษ์ ดอกไม้',  cls: 'ป.6/3', score: 155, time: 188, acc: 79, em: '🐯' },
+  { name: 'ด.ญ. พิมพ์ลภัส รุ่งเรือง', cls: 'ป.6/1', score: 150, time: 175, acc: 78, em: '🌸' },
+  { name: 'ด.ช. รัชชานนท์ มั่นคง',    cls: 'ป.6/2', score: 145, time: 192, acc: 75, em: '🐼' },
+  { name: 'ด.ญ. ชนัญชิดา ทองคำ',    cls: 'ป.6/3', score: 140, time: 198, acc: 73, em: '🦋' },
+  { name: 'ด.ช. เตชินท์ พิมพ์ทอง',   cls: 'ป.6/3', score: 125, time: 220, acc: 68, em: '🐸' },
+];
+
+// ตัวอย่างกิจกรรมในระบบ
+window.ACTIVITIES = [
+  { id: 'nutrition', subject: 'วิทย์ ป.6', title: 'เกมจับคู่สารอาหาร', desc: 'ลากอาหารใส่ตะกร้าให้ตรงหมู่ 5 หมู่ หรือ 6 สารอาหาร', em: '🍎', tag: 'ใหม่!', ribbon: 'new', time: '10–20 นาที', plays: 247, available: true },
+  { id: 'eco', subject: 'วิทย์ ป.6', title: 'ห่วงโซ่อาหารในระบบนิเวศ', desc: 'ลากผู้ผลิต–ผู้บริโภคให้ครบลำดับ', em: '🦋', tag: 'เร็วๆ นี้', ribbon: 'soon', time: '15 นาที', plays: 0, available: false },
+  { id: 'solar', subject: 'วิทย์ ป.6', title: 'ระบบสุริยะของเรา', desc: 'จัดเรียงดาวเคราะห์ตามระยะจากดวงอาทิตย์', em: '🪐', tag: 'เร็วๆ นี้', ribbon: 'soon', time: '10 นาที', plays: 0, available: false },
+  { id: 'circuit', subject: 'วิทย์ ป.6', title: 'ต่อวงจรไฟฟ้า', desc: 'ทดลองต่อวงจรอนุกรม–ขนาน บนกระดานเสมือนจริง', em: '💡', tag: 'เร็วๆ นี้', ribbon: 'soon', time: '20 นาที', plays: 0, available: false },
+];
+
+window.SUBJECTS = [
+  { id: 's1', name: 'อาหารและสารอาหาร', em: '🥗', color: '#10B981', soft: '#D1FADF', count: 1, total: 4, progress: 25 },
+  { id: 's2', name: 'สิ่งมีชีวิตและสิ่งแวดล้อม', em: '🌿', color: '#84CC16', soft: '#ECFCCB', count: 0, total: 3, progress: 0 },
+  { id: 's3', name: 'ไฟฟ้า', em: '⚡', color: '#F59E0B', soft: '#FEF1C7', count: 0, total: 3, progress: 0 },
+  { id: 's4', name: 'หิน ดิน น้ำ ฟ้า', em: '🌎', color: '#06B6D4', soft: '#CFFAFE', count: 0, total: 4, progress: 0 },
+  { id: 's5', name: 'ดาราศาสตร์', em: '🌌', color: '#8B5CF6', soft: '#EDE9FE', count: 0, total: 3, progress: 0 },
+];
+  </script>
+  <script type="text/babel" data-presets="react">
+// ==========================================================================
+// หน้าจอ Home (Dashboard) + Leaderboard + Teacher
+// ==========================================================================
+
+const { useState } = React;
+
+function TopNav({ screen, go }) {
+  const items = [
+    { id: 'home', label: 'หน้าแรก', em: '🏠' },
+    { id: 'leaderboard', label: 'อันดับ', em: '🏆' },
+    { id: 'teacher', label: 'ครูผู้สอน', em: '👨‍🏫' },
+  ];
+  const crumbMap = {
+    home: 'หน้าแรก',
+    setup: 'เกมจับคู่สารอาหาร · เตรียมเล่น',
+    game: 'เกมจับคู่สารอาหาร · กำลังเล่น',
+    battle: 'เกมจับคู่สารอาหาร · โหมดต่อสู้',
+    results: 'เกมจับคู่สารอาหาร · ผลคะแนน',
+    'battle-results': 'เกมจับคู่สารอาหาร · ผลการแข่งขัน',
+    leaderboard: 'อันดับนักเรียน',
+    teacher: 'แดชบอร์ดครูผู้สอน',
+  };
+  return (
+    <header className="topnav">
+      <button className="brand" onClick={() => go('home')}>
+        <span className="brand-mark">วท</span>
+        <span className="brand-text">
+          <div>สื่อการสอนวิทยาศาสตร์</div>
+          <div className="brand-sub">โรงเรียนลำพะอง (ราษฎร์จำเริญบำรุง)</div>
+        </span>
+      </button>
+      <div className="crumbs">/ <strong>{crumbMap[screen] || ''}</strong></div>
+      <div className="spacer"></div>
+      <nav style={{display:'flex', gap: 4}}>
+        {items.map(it => (
+          <button
+            key={it.id}
+            className={'nav-btn ' + (screen === it.id ? 'active' : '')}
+            onClick={() => go(it.id)}
+          >
+            <span>{it.em}</span> {it.label}
+          </button>
+        ))}
+      </nav>
+      <div className="user-chip">
+        <span className="avatar">ธ</span>
+        <span>ครูธัญพงศ์</span>
+      </div>
+    </header>
+  );
+}
+
+function HomeScreen({ go }) {
+  return (
+    <div className="page">
+      <section className="hero">
+        <div className="hero-tag">📚 วิทยาศาสตร์ ป.6 · ภาคเรียนที่ 1</div>
+        <h1>สื่อการสอนแบบโต้ตอบ<br/>สำหรับนักเรียนชั้นประถมศึกษา</h1>
+        <p>กิจกรรมและเกมการเรียนรู้ที่ออกแบบมาเพื่อให้นักเรียนเข้าใจเนื้อหาวิทยาศาสตร์ผ่านการลงมือทำ พร้อมระบบติดตามผลการเรียนรู้</p>
+        <div className="hero-foods">
+          <span className="hero-food" style={{transform: 'rotate(-8deg)'}}>🥗</span>
+          <span className="hero-food" style={{transform: 'rotate(6deg) translateY(-10px)', marginLeft: -16}}>🍎</span>
+          <span className="hero-food" style={{transform: 'rotate(-4deg)', marginLeft: -16}}>🥦</span>
+        </div>
+      </section>
+
+      <div className="stats-strip">
+        <div className="stat-card">
+          <div className="ico" style={{background: 'var(--g3-soft)', color: 'var(--g3-deep)'}}>👩‍🎓</div>
+          <div>
+            <div className="num">128</div>
+            <div className="lab">นักเรียนใช้งาน</div>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="ico" style={{background: 'var(--g2-soft)', color: 'var(--g2-deep)'}}>🎮</div>
+          <div>
+            <div className="num">247</div>
+            <div className="lab">ครั้งที่เล่นเกม</div>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="ico" style={{background: 'var(--g4-soft)', color: 'var(--g4-deep)'}}>⭐</div>
+          <div>
+            <div className="num">82%</div>
+            <div className="lab">คะแนนเฉลี่ย</div>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="ico" style={{background: 'var(--g5-soft)', color: 'var(--g5-deep)'}}>📖</div>
+          <div>
+            <div className="num">17</div>
+            <div className="lab">สื่อการสอน</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="section-title">
+        <h2>🎯 กิจกรรมแนะนำสัปดาห์นี้</h2>
+        <span className="count">{window.ACTIVITIES.length} กิจกรรม</span>
+      </div>
+
+      <div className="activity-grid">
+        {window.ACTIVITIES.map(a => (
+          <button
+            key={a.id}
+            className={'activity-card ' + (a.available ? '' : 'coming-soon')}
+            onClick={() => a.available && go('setup')}
+            disabled={!a.available}
+          >
+            <span className={'ribbon ' + a.ribbon}>{a.tag}</span>
+            <div className="title">{a.title}</div>
+            <div className="desc">{a.desc}</div>
+            <div className="meta-row">
+              <span>📘 {a.subject}</span>
+              <span className="dot">•</span>
+              <span>⏱ {a.time}</span>
+              {a.plays > 0 && <><span className="dot">•</span><span>🎮 เล่นแล้ว {a.plays} ครั้ง</span></>}
+            </div>
+            <div className="pic" style={{background: a.available ? '#FFF5E1' : '#F5EFE2'}}>
+              <span style={{fontSize: 90}}>{a.em}</span>
+              {a.id === 'nutrition' && (
+                <div className="floaters">
+                  <span style={{top: 14, left: 20, fontSize: 28, transform: 'rotate(-12deg)'}}>🥕</span>
+                  <span style={{top: 22, right: 28, fontSize: 26, transform: 'rotate(15deg)'}}>🥚</span>
+                  <span style={{bottom: 12, left: 36, fontSize: 24, transform: 'rotate(8deg)'}}>🍞</span>
+                  <span style={{bottom: 18, right: 18, fontSize: 30, transform: 'rotate(-6deg)'}}>🥛</span>
+                </div>
+              )}
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <div className="section-title">
+        <h2>📚 หมวดวิชา</h2>
+        <span className="count">วิทยาศาสตร์ ป.6</span>
+      </div>
+
+      <div className="subject-grid">
+        {window.SUBJECTS.map(s => (
+          <div key={s.id} className="subject-card">
+            <div className="ico" style={{background: s.soft, color: s.color}}>{s.em}</div>
+            <div className="name">{s.name}</div>
+            <div className="meta">{s.total} สื่อการสอน</div>
+            <div className="progress">
+              <div className="pbar"><div style={{width: s.progress + '%', background: s.color}}></div></div>
+              <div className="pcount">{s.count}/{s.total}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="credit">
+        จัดทำโดย <strong>ครูธัญพงศ์ พานิชรัมย์</strong> · โรงเรียนลำพะอง (ราษฎร์จำเริญบำรุง)
+      </div>
+    </div>
+  );
+}
+
+function LeaderboardScreen() {
+  const sorted = [...window.STUDENTS].sort((a,b) => b.score - a.score);
+  const medal = (i) => i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i+1}`;
+  const rowClass = (i) => i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+  return (
+    <div className="page page-narrow">
+      <div style={{textAlign:'center', marginBottom: 28}}>
+        <div style={{fontSize: 60, lineHeight: 1}}>🏆</div>
+        <h1 style={{fontSize: 36, marginTop: 8}}>อันดับคะแนนนักเรียน</h1>
+        <div style={{color: 'var(--ink-mute)', marginTop: 6}}>เกมจับคู่สารอาหาร · สัปดาห์นี้</div>
+      </div>
+
+      <div className="leader-table">
+        <div className="leader-row head">
+          <div>อันดับ</div>
+          <div>นักเรียน</div>
+          <div>ห้อง</div>
+          <div className="col-time">เวลา</div>
+          <div>คะแนน</div>
+        </div>
+        {sorted.map((s, i) => (
+          <div key={s.name} className={'leader-row ' + rowClass(i)}>
+            <div className="rank">{medal(i)}</div>
+            <div className="student">
+              <div className="av" style={{background: 'var(--g2-soft)'}}>{s.em}</div>
+              <div>{s.name}</div>
+            </div>
+            <div>{s.cls}</div>
+            <div className="col-time" style={{color: 'var(--ink-mute)'}}>{Math.floor(s.time/60)}:{String(s.time%60).padStart(2,'0')}</div>
+            <div className="score-cell" style={{color: 'var(--g2-deep)'}}>{s.score} คะแนน</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="credit" style={{marginTop: 40}}>
+        จัดทำโดย <strong>ครูธัญพงศ์ พานิชรัมย์</strong> · โรงเรียนลำพะอง (ราษฎร์จำเริญบำรุง)
+      </div>
+    </div>
+  );
+}
+
+function TeacherScreen() {
+  const [cls, setCls] = useState('ทั้งหมด');
+  const classes = ['ทั้งหมด', 'ป.6/1', 'ป.6/2', 'ป.6/3'];
+  const counts = { 'ทั้งหมด': window.STUDENTS.length };
+  classes.slice(1).forEach(c => counts[c] = window.STUDENTS.filter(s => s.cls === c).length);
+  const filtered = cls === 'ทั้งหมด' ? window.STUDENTS : window.STUDENTS.filter(s => s.cls === cls);
+  const sorted = [...filtered].sort((a,b) => b.score - a.score);
+  const avg = sorted.length ? Math.round(sorted.reduce((a,b) => a + b.score, 0) / sorted.length) : 0;
+  const avgAcc = sorted.length ? Math.round(sorted.reduce((a,b) => a + b.acc, 0) / sorted.length) : 0;
+
+  return (
+    <div className="page">
+      <div style={{marginBottom: 22}}>
+        <h1 style={{fontSize: 30}}>👨‍🏫 แดชบอร์ดครูผู้สอน</h1>
+        <div style={{color: 'var(--ink-mute)', marginTop: 6}}>ติดตามผลคะแนนของนักเรียนในแต่ละห้องเรียน</div>
+      </div>
+
+      <div className="stats-strip" style={{marginBottom: 24}}>
+        <div className="stat-card">
+          <div className="ico" style={{background: 'var(--g3-soft)', color: 'var(--g3-deep)'}}>👨‍👩‍👧</div>
+          <div><div className="num">{sorted.length}</div><div className="lab">นักเรียนทั้งหมด</div></div>
+        </div>
+        <div className="stat-card">
+          <div className="ico" style={{background: 'var(--g2-soft)', color: 'var(--g2-deep)'}}>📊</div>
+          <div><div className="num">{avg}</div><div className="lab">คะแนนเฉลี่ย</div></div>
+        </div>
+        <div className="stat-card">
+          <div className="ico" style={{background: 'var(--g4-soft)', color: 'var(--g4-deep)'}}>🎯</div>
+          <div><div className="num">{avgAcc}%</div><div className="lab">ความแม่นยำเฉลี่ย</div></div>
+        </div>
+        <div className="stat-card">
+          <div className="ico" style={{background: 'var(--g5-soft)', color: 'var(--g5-deep)'}}>🎮</div>
+          <div><div className="num">{sorted.length * 2}</div><div className="lab">ครั้งที่เล่น</div></div>
+        </div>
+      </div>
+
+      <div className="teacher-grid">
+        <aside className="teacher-side">
+          <h4>ห้องเรียน</h4>
+          {classes.map(c => (
+            <button
+              key={c}
+              className={'class-pill ' + (c === cls ? 'active' : '')}
+              onClick={() => setCls(c)}
+            >
+              {c} <span className="ct">{counts[c]}</span>
+            </button>
+          ))}
+          <h4 style={{marginTop: 22}}>กิจกรรม</h4>
+          <button className="class-pill active">🥗 เกมสารอาหาร <span className="ct">247</span></button>
+        </aside>
+
+        <main className="teacher-main">
+          <div className="t-row head">
+            <div></div>
+            <div>นักเรียน</div>
+            <div>คะแนน</div>
+            <div className="col-acc">ความแม่นยำ</div>
+            <div className="col-time">เวลาที่ใช้</div>
+            <div style={{textAlign:'right'}}>ดู</div>
+          </div>
+          {sorted.map((s, i) => (
+            <div key={s.name} className="t-row">
+              <div className="av">{s.em}</div>
+              <div>
+                <div className="nm">{s.name}</div>
+                <div className="sm">{s.cls} · เล่นเมื่อ {['วันนี้','เมื่อวาน','2 วันก่อน','3 วันก่อน'][i%4]}</div>
+              </div>
+              <div>
+                <span className="score-mini" style={{color: 'var(--g2-deep)'}}>{s.score}</span>
+                <span className="bar-mini"><div style={{width: (s.score/200*100) + '%'}}></div></span>
+              </div>
+              <div className="col-acc"><span style={{color: s.acc >= 85 ? 'var(--g3-deep)' : s.acc >= 75 ? 'var(--g2-deep)' : 'var(--g1-deep)', fontWeight: 600}}>{s.acc}%</span></div>
+              <div className="col-time" style={{color: 'var(--ink-mute)'}}>{Math.floor(s.time/60)}:{String(s.time%60).padStart(2,'0')} น.</div>
+              <div style={{textAlign:'right'}}>
+                <button className="btn btn-ghost" style={{padding: '6px 14px', fontSize: 13}}>ดูรายละเอียด</button>
+              </div>
+            </div>
+          ))}
+        </main>
+      </div>
+
+      <div className="credit" style={{marginTop: 40}}>
+        จัดทำโดย <strong>ครูธัญพงศ์ พานิชรัมย์</strong> · โรงเรียนลำพะอง (ราษฎร์จำเริญบำรุง)
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { TopNav, HomeScreen, LeaderboardScreen, TeacherScreen });
+  </script>
+  <script type="text/babel" data-presets="react">
+// ==========================================================================
+// Setup screen — เลือกโหมด + ระดับ + ใส่ชื่อ
+// ==========================================================================
+
+const { useState: useStateSetup } = React;
+
+function SetupScreen({ config, setConfig, go }) {
+  const groups = window.FOOD_GROUPS;
+  const nutrients = window.NUTRIENTS;
+
+  const baskets = config.mode === 'groups' ? groups : nutrients;
+
+  return (
+    <div className="page page-narrow">
+      <div style={{marginBottom: 24}}>
+        <button className="btn btn-ghost" onClick={() => go('home')} style={{marginBottom: 18, fontSize: 13, padding: '8px 14px'}}>
+          ← กลับหน้าแรก
+        </button>
+        <h1 style={{fontSize: 36}}>🥗 เกมจับคู่สารอาหาร</h1>
+        <div style={{color: 'var(--ink-soft)', maxWidth: 560, marginTop: 8}}>
+          ลากอาหารแต่ละชนิดไปใส่ตะกร้าให้ถูกหมวด นักเรียนจะได้เรียนรู้ว่าอาหารแต่ละอย่างจัดอยู่ในหมู่อาหารหรือสารอาหารประเภทใด
+        </div>
+      </div>
+
+      <div className="setup-grid">
+        <div>
+          <div className="setup-panel">
+            <h3>1. เลือกโหมดการเล่น</h3>
+            <div className="subtitle">นักเรียนจะลากอาหารไปจัดประเภทตามรูปแบบที่เลือก</div>
+            <div className="mode-toggle">
+              <button
+                className={'mode-opt ' + (config.mode === 'groups' ? 'active' : '')}
+                onClick={() => setConfig({...config, mode: 'groups'})}
+              >
+                <div className="em">🍱</div>
+                <div>
+                  <div className="name">อาหารหลัก 5 หมู่</div>
+                  <div className="desc">จัดอาหารลงตะกร้า 5 หมู่ (โปรตีน, คาร์บ, ผัก, ผลไม้, ไขมัน)</div>
+                </div>
+                <div className="check">{config.mode === 'groups' ? '✓' : ''}</div>
+              </button>
+              <button
+                className={'mode-opt ' + (config.mode === 'nutrients' ? 'active' : '')}
+                onClick={() => setConfig({...config, mode: 'nutrients'})}
+              >
+                <div className="em">🧪</div>
+                <div>
+                  <div className="name">สารอาหาร 6 ประเภท</div>
+                  <div className="desc">จัดอาหารตามสารอาหารหลัก (คาร์บ โปรตีน ไขมัน วิตามิน เกลือแร่ น้ำ)</div>
+                </div>
+                <div className="check">{config.mode === 'nutrients' ? '✓' : ''}</div>
+              </button>
+            </div>
+          </div>
+
+          <div className="setup-panel" style={{marginTop: 16}}>
+            <h3>2. {config.playMode === 'battle' ? 'เลือกจำนวนข้อที่จะแข่ง' : 'เลือกระดับความยาก'}</h3>
+            <div className="subtitle">
+              {config.playMode === 'battle'
+                ? 'โหมดต่อสู้ไม่จับเวลา ใครเล่นจบก่อนรอฝ่ายตรงข้ามได้เลย'
+                : 'ระดับความยากกำหนดจำนวนข้อและเวลาในการเล่น'}
+            </div>
+            {config.playMode === 'battle' ? (
+              <div className="diff-row">
+                {[10, 20, 30].map(n => (
+                  <button
+                    key={n}
+                    className={'diff-opt ' + (config.questionCount === n ? 'active' : '')}
+                    onClick={() => setConfig({...config, questionCount: n})}
+                  >
+                    <div className="em">{n === 10 ? '🌱' : n === 20 ? '🌳' : '🔥'}</div>
+                    <div className="name">{n} ข้อ</div>
+                    <div className="meta">{n === 10 ? 'สั้น ๆ เร็ว ๆ' : n === 20 ? 'มาตรฐาน' : 'แข่งยาว ๆ'}</div>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="diff-row">
+                {Object.values(window.DIFFICULTIES).map(d => (
+                  <button
+                    key={d.id}
+                    className={'diff-opt ' + (config.difficulty === d.id ? 'active' : '')}
+                    onClick={() => setConfig({...config, difficulty: d.id})}
+                  >
+                    <div className="em">{d.em}</div>
+                    <div className="name">{d.name}</div>
+                    <div className="meta">{d.label}</div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="setup-panel" style={{marginTop: 16}}>
+            <h3>3. เลือกรูปแบบการเล่น</h3>
+            <div className="subtitle">เล่นคนเดียว หรือชวนเพื่อนแข่งกันบนเครื่องเดียว</div>
+            <div className="play-mode-row">
+              <button
+                className={'play-mode-opt ' + (config.playMode === 'solo' ? 'active' : '')}
+                onClick={() => setConfig({...config, playMode: 'solo'})}
+              >
+                <div className="em">🎯</div>
+                <div>
+                  <div className="name">เล่นเดี่ยว</div>
+                  <div className="desc">เรียนรู้สบายๆ พร้อมเฉลย</div>
+                </div>
+              </button>
+              <button
+                className={'play-mode-opt ' + (config.playMode === 'battle' ? 'active' : '')}
+                onClick={() => setConfig({...config, playMode: 'battle'})}
+              >
+                <div className="em">⚔️</div>
+                <div>
+                  <div className="name">แข่งขัน 2 คน</div>
+                  <div className="desc">แบ่งครึ่งจอ ซ้าย–ขวา แข่งสด</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div className="setup-panel" style={{marginTop: 16}}>
+            <h3>4. ใส่ชื่อนักเรียน</h3>
+            <div className="subtitle">
+              {config.playMode === 'battle' ? 'ผู้เล่น 2 คนต้องใส่ชื่อทั้งคู่' : 'ชื่อจะแสดงในกระดานคะแนนของห้อง'}
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
+              <div>
+                <label style={{fontSize: 12, color: 'var(--ink-mute)', display:'flex', alignItems:'center', gap: 6, marginBottom: 4}}>
+                  {config.playMode === 'battle' && <span style={{background: '#3B82F6', color:'white', borderRadius: 999, padding:'1px 8px', fontSize: 11, fontWeight: 700}}>🦊 ฝั่งซ้าย</span>}
+                  ชื่อผู้เล่น 1
+                </label>
+                <input
+                  className="player-input"
+                  placeholder="เช่น ด.ญ. สมหญิง ใจดี"
+                  value={config.player}
+                  onChange={(e) => setConfig({...config, player: e.target.value})}
+                  style={{width: '100%'}}
+                />
+              </div>
+              {config.playMode === 'battle' && (
+                <div>
+                  <label style={{fontSize: 12, color: 'var(--ink-mute)', display:'flex', alignItems:'center', gap: 6, marginBottom: 4}}>
+                    <span style={{background: '#EF4444', color:'white', borderRadius: 999, padding:'1px 8px', fontSize: 11, fontWeight: 700}}>🐯 ฝั่งขวา</span>
+                    ชื่อผู้เล่น 2
+                  </label>
+                  <input
+                    className="player-input"
+                    placeholder="เช่น ด.ช. สมชาย เก่งกล้า"
+                    value={config.player2}
+                    onChange={(e) => setConfig({...config, player2: e.target.value})}
+                    style={{width: '100%'}}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="setup-cta">
+            <button
+              className="btn btn-accent"
+              onClick={() => go(config.playMode === 'battle' ? 'battle' : 'game')}
+              disabled={!config.player.trim() || (config.playMode === 'battle' && !config.player2.trim())}
+              style={{flex: 1, opacity: (config.player.trim() && (config.playMode !== 'battle' || config.player2.trim())) ? 1 : .5}}
+            >
+              {config.playMode === 'battle' ? 'เริ่มแข่งเลย ⚔️' : 'เริ่มเล่นเลย 🚀'}
+            </button>
+          </div>
+        </div>
+
+        <div className="preview-pane">
+          <h3>👀 ตัวอย่างตะกร้าที่จะใช้</h3>
+          <div className="basket-preview">
+            {baskets.map(b => (
+              <div key={b.id} className="basket-mini" style={{borderColor: b.color, color: b.deep, background: b.soft}}>
+                <div className="em">{b.em}</div>
+                <div className="nm">
+                  {b.short || b.name}
+                  {b.short && <small>{b.name}</small>}
+                  {!b.short && <small>{b.func}</small>}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <h3 style={{marginTop: 18}}>📖 กติกาง่ายๆ</h3>
+          <ul className="rules-list">
+            <li>ลากการ์ดอาหารใส่ตะกร้าที่ถูกต้อง</li>
+            <li>ตอบถูก +10 คะแนน · ตอบผิด −5 คะแนน</li>
+            <li>ตอบถูกติดกัน 3 ครั้ง รับ "คอมโบ" คะแนนเพิ่ม</li>
+            {config.playMode === 'battle' ? (
+              <>
+                <li>ไม่จับเวลาจบเกม เล่นจนครบจำนวนข้อ</li>
+                <li>คำถาม 2 ฝั่งสุ่มแยกกัน ไม่ซ้ำกัน</li>
+                <li>ใครเล่นจบก่อนรอฝ่ายตรงข้ามได้เลย</li>
+              </>
+            ) : (
+              <li>อ่านคำอธิบายความรู้หลังตอบทุกครั้ง</li>
+            )}
+          </ul>
+
+          <div style={{marginTop: 18, padding: 14, background: 'white', borderRadius: 14, fontSize: 13, color: 'var(--ink-soft)'}}>
+            <strong style={{color: 'var(--ink)'}}>💡 รู้หรือไม่?</strong><br/>
+            อาหารแต่ละชนิดอาจมีสารอาหารหลายอย่าง แต่เราจัดประเภทตาม "สารอาหารหลัก" ที่มีปริมาณมากที่สุด
+          </div>
+        </div>
+      </div>
+
+      <div className="credit" style={{marginTop: 40}}>
+        จัดทำโดย <strong>ครูธัญพงศ์ พานิชรัมย์</strong> · โรงเรียนลำพะอง (ราษฎร์จำเริญบำรุง)
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { SetupScreen });
+  </script>
+  <script type="text/babel" data-presets="react">
+// ==========================================================================
+// Game screen — Drag & Drop หลัก
+// ==========================================================================
+
+const { useState: useStateG, useEffect: useEffectG, useRef: useRefG, useMemo: useMemoG } = React;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Simple beep using WebAudio
+function playTone(freq, duration = 150, type = 'sine', vol = .12) {
+  try {
+    const ctx = window.__audioCtx || (window.__audioCtx = new (window.AudioContext || window.webkitAudioContext)());
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type; osc.frequency.value = freq;
+    gain.gain.value = vol;
+    osc.connect(gain).connect(ctx.destination);
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + duration/1000);
+    osc.stop(ctx.currentTime + duration/1000);
+  } catch(e) {}
+}
+function sfxCorrect(muted) { if (muted) return; playTone(660, 100, 'sine'); setTimeout(() => playTone(880, 150, 'sine'), 90); }
+function sfxWrong(muted) { if (muted) return; playTone(220, 200, 'square', .08); }
+function sfxTick(muted) { if (muted) return; playTone(440, 40, 'square', .06); }
+function sfxFinish(muted) { if (muted) return; playTone(523, 120); setTimeout(() => playTone(659, 120), 110); setTimeout(() => playTone(784, 200), 230); }
+
+function GameScreen({ config, finish, go }) {
+  const diff = window.DIFFICULTIES[config.difficulty];
+  const baskets = config.mode === 'groups' ? window.FOOD_GROUPS : window.NUTRIENTS;
+  const basketKey = config.mode === 'groups' ? 'group' : 'nutrient';
+
+  // questions: shuffle and slice
+  const questions = useMemoG(() => shuffle(window.FOODS).slice(0, diff.questions), []);
+
+  const [qIndex, setQIndex] = useStateG(0);
+  const [score, setScore] = useStateG(0);
+  const [streak, setStreak] = useStateG(0);
+  const [bestStreak, setBestStreak] = useStateG(0);
+  const [history, setHistory] = useStateG([]); // {food, correct, answeredId}
+  const [feedback, setFeedback] = useStateG(null); // { correct, food, msg }
+  const [time, setTime] = useStateG(diff.time || 0); // countdown or up
+  const [muted, setMuted] = useStateG(false);
+  const [pointPop, setPointPop] = useStateG(null);
+  const [hoverBasket, setHoverBasket] = useStateG(null);
+  const [dragState, setDragState] = useStateG({ dragging: false, x: 0, y: 0, ox: 0, oy: 0, animating: null });
+
+  const cardRef = useRefG(null);
+  const basketRefs = useRefG({});
+
+  // timer
+  useEffectG(() => {
+    if (!diff.time) {
+      // count up
+      const t = setInterval(() => setTime(s => s + 1), 1000);
+      return () => clearInterval(t);
+    }
+    const t = setInterval(() => {
+      setTime(s => {
+        if (s <= 1) {
+          clearInterval(t);
+          endGame();
+          return 0;
+        }
+        if (s <= 10) sfxTick(muted);
+        return s - 1;
+      });
+    }, 1000);
+    return () => clearInterval(t);
+    // eslint-disable-next-line
+  }, []);
+
+  const food = questions[qIndex];
+
+  function endGame() {
+    sfxFinish(muted);
+    finish({
+      score,
+      streak: bestStreak,
+      total: questions.length,
+      correctCount: history.filter(h => h.correct).length,
+      time: diff.time ? (diff.time - time) : time,
+      history,
+      mode: config.mode,
+      difficulty: config.difficulty,
+      player: config.player,
+    });
+  }
+
+  function showPoint(plus, x, y) {
+    setPointPop({ value: plus, x, y, key: Date.now() });
+    setTimeout(() => setPointPop(null), 1000);
+  }
+
+  function handleDrop(basketId, x, y) {
+    if (!food || feedback) return;
+    const isCorrect = food[basketKey] === basketId;
+    const basket = baskets.find(b => b.id === basketId);
+    let delta = 0;
+    let newStreak = streak;
+    if (isCorrect) {
+      delta = 10;
+      newStreak = streak + 1;
+      if (newStreak >= 3 && newStreak % 3 === 0) delta += 5; // combo bonus
+      sfxCorrect(muted);
+    } else {
+      delta = -5;
+      newStreak = 0;
+      sfxWrong(muted);
+    }
+    setScore(s => Math.max(0, s + delta));
+    setStreak(newStreak);
+    setBestStreak(b => Math.max(b, newStreak));
+    showPoint(delta, x, y);
+    setHistory(h => [...h, { food, correct: isCorrect, answeredId: basketId }]);
+
+    // show explanation
+    const correctBasket = baskets.find(b => b.id === food[basketKey]);
+    setFeedback({
+      correct: isCorrect,
+      food,
+      msg: isCorrect
+        ? `ใช่แล้ว! "${food.name}" จัดอยู่ใน ${correctBasket.short || correctBasket.name}`
+        : `"${food.name}" ควรอยู่ใน ${correctBasket.short || correctBasket.name} ไม่ใช่ ${basket.short || basket.name}`,
+      explain: food.tip,
+      delta,
+    });
+  }
+
+  function nextQuestion() {
+    setFeedback(null);
+    if (qIndex + 1 >= questions.length) {
+      endGame();
+    } else {
+      setQIndex(i => i + 1);
+    }
+  }
+
+  // ========== Drag handlers (pointer events) ==========
+  function onPointerDown(e) {
+    if (feedback || !food) return;
+    const target = cardRef.current;
+    if (!target) return;
+    e.preventDefault();
+    target.setPointerCapture && target.setPointerCapture(e.pointerId);
+    const rect = target.getBoundingClientRect();
+    setDragState({
+      dragging: true,
+      x: e.clientX,
+      y: e.clientY,
+      ox: e.clientX - (rect.left + rect.width/2),
+      oy: e.clientY - (rect.top + rect.height/2),
+      startX: rect.left + rect.width/2,
+      startY: rect.top + rect.height/2,
+    });
+  }
+  function onPointerMove(e) {
+    if (!dragState.dragging) return;
+    setDragState(s => ({ ...s, x: e.clientX, y: e.clientY }));
+    // hit test baskets
+    let hit = null;
+    Object.entries(basketRefs.current).forEach(([id, el]) => {
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
+        hit = id;
+      }
+    });
+    setHoverBasket(hit);
+  }
+  function onPointerUp(e) {
+    if (!dragState.dragging) return;
+    const wasHover = hoverBasket;
+    setDragState(s => ({ ...s, dragging: false }));
+    setHoverBasket(null);
+    if (wasHover) {
+      handleDrop(wasHover, e.clientX, e.clientY);
+    }
+  }
+
+  // dragging style
+  const dragStyle = dragState.dragging ? {
+    position: 'fixed',
+    left: dragState.x - dragState.ox,
+    top: dragState.y - dragState.oy,
+    transform: 'translate(-50%, -50%) scale(1.04) rotate(-2deg)',
+    zIndex: 100,
+    transition: 'none',
+  } : {};
+
+  // game header
+  const timeStr = `${Math.floor(time/60)}:${String(time%60).padStart(2,'0')}`;
+  const danger = diff.time && time <= 10 && time > 0;
+
+  return (
+    <div style={{minHeight:'100vh', display:'flex', flexDirection:'column', position:'relative'}}>
+      <div className="game-header">
+        <div className="game-stats">
+          <button className="icon-btn" onClick={() => { if (confirm('ออกจากเกมและกลับสู่หน้าแรก?')) go('home'); }}>←</button>
+          <div className="game-stat score"><span className="em">⭐</span> {score} คะแนน</div>
+          {streak >= 2 && <div className="game-stat streak"><span className="em">🔥</span> ติดต่อกัน {streak} ครั้ง</div>}
+        </div>
+        <div className="progress-pill">
+          <span className="num">{qIndex + 1} / {questions.length}</span>
+          <div className="bar"><div style={{width: ((qIndex)/questions.length*100) + '%'}}></div></div>
+        </div>
+        <div className="game-stats" style={{justifyContent: 'flex-end'}}>
+          <div className={'game-stat time ' + (danger ? 'danger' : '')}>
+            <span className="em">⏱</span> {timeStr}
+          </div>
+          <button className={'icon-btn ' + (muted ? 'muted' : '')} onClick={() => setMuted(m => !m)} title="เปิด/ปิดเสียง">
+            {muted ? '🔇' : '🔊'}
+          </button>
+        </div>
+      </div>
+
+      <div className="game-stage">
+        <div className="game-prompt">
+          ลาก<strong> {food?.name} </strong>ไปใส่
+          {config.mode === 'groups' ? 'ตะกร้าที่ตรงกับหมู่อาหาร' : 'ตะกร้าที่ตรงกับสารอาหารหลัก'}
+        </div>
+        {food && (
+          <div
+            ref={cardRef}
+            className={'food-card ' + (dragState.dragging ? 'dragging' : '')}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
+            style={dragStyle}
+          >
+            <div className="em">{food.em}</div>
+            <div className="name">{food.name}</div>
+            <div className="hint">👆 ลากไปใส่ตะกร้า</div>
+          </div>
+        )}
+      </div>
+
+      {/* Baskets at bottom */}
+      <div className="baskets-dock">
+        <div className="baskets-row" style={{'--basket-count': baskets.length}}>
+          {baskets.map(b => (
+            <div
+              key={b.id}
+              ref={el => basketRefs.current[b.id] = el}
+              className={'basket ' + (hoverBasket === b.id ? 'hover' : '')}
+              style={{
+                '--basket-color': b.color,
+                '--basket-soft': b.soft,
+                color: b.deep,
+              }}
+            >
+              {b.no && <div className="num-badge">หมู่ {b.no}</div>}
+              <div className="em" style={{transition: 'transform .15s'}}>{b.em}</div>
+              <div className="lab">{b.short || b.name}</div>
+              <div className="sub">{b.short ? b.name : b.func}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Floating points */}
+      {pointPop && (
+        <div
+          key={pointPop.key}
+          className={'point-pop ' + (pointPop.value > 0 ? 'plus' : 'minus')}
+          style={{left: pointPop.x, top: pointPop.y}}
+        >
+          {pointPop.value > 0 ? '+' : ''}{pointPop.value}
+        </div>
+      )}
+
+      {/* Feedback popup */}
+      {feedback && (
+        <>
+          <div style={{
+            position:'fixed', inset: 0, background:'rgba(42,31,18,.35)',
+            zIndex: 999, animation: 'fade-in .2s'
+          }} onClick={nextQuestion}></div>
+          <div className={'feedback ' + (feedback.correct ? 'correct' : 'wrong')}>
+            <div className="em">{feedback.correct ? '🎉' : '🤔'}</div>
+            <h3>{feedback.correct ? `${feedback.delta > 10 ? 'คอมโบ! ' : ''}ถูกต้อง! +${feedback.delta}` : `ยังไม่ใช่ ${feedback.delta}`}</h3>
+            <div className="body">{feedback.msg}</div>
+            <div className="body" style={{
+              background: feedback.correct ? 'var(--g3-soft)' : 'var(--g2-soft)',
+              padding: '12px 14px',
+              borderRadius: 12,
+              marginTop: 12,
+              fontSize: 14,
+            }}>
+              <strong>💡 รู้ไว้:</strong> {feedback.explain}
+            </div>
+            <button className="btn btn-accent next-btn" onClick={nextQuestion}>
+              {qIndex + 1 >= questions.length ? 'ดูผลคะแนน' : 'ข้อถัดไป'} →
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+Object.assign(window, { GameScreen });
+  </script>
+  <script type="text/babel" data-presets="react">
+// ==========================================================================
+// Battle Mode — แข่งขัน 2 คน แบ่งครึ่งจอ
+// ==========================================================================
+
+const { useState: useStateB, useEffect: useEffectB, useRef: useRefB, useMemo: useMemoB } = React;
+
+function shuffleB(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function bPlayTone(freq, duration = 150, type = 'sine', vol = .10) {
+  try {
+    const ctx = window.__audioCtx || (window.__audioCtx = new (window.AudioContext || window.webkitAudioContext)());
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type; osc.frequency.value = freq;
+    gain.gain.value = vol;
+    osc.connect(gain).connect(ctx.destination);
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + duration/1000);
+    osc.stop(ctx.currentTime + duration/1000);
+  } catch(e) {}
+}
+
+// ===== Single side of the battle =====
+function BattleSide({
+  side, name, color, soft, deep, avatarEm,
+  questions, baskets, basketKey,
+  state, setState,
+  active, muted,
+}) {
+  const cardRef = useRefB(null);
+  const basketRefs = useRefB({});
+  const [drag, setDrag] = useStateB({ dragging: false, x: 0, y: 0, ox: 0, oy: 0 });
+  const [hover, setHover] = useStateB(null);
+  const [flash, setFlash] = useStateB(null); // {type:'correct'|'wrong', delta, text, food}
+  const [pointPop, setPointPop] = useStateB(null);
+
+  const food = questions[state.qIndex];
+  const done = state.qIndex >= questions.length;
+
+  function handleDrop(basketId, x, y) {
+    if (!food || done || flash || !active) return;
+    const isCorrect = food[basketKey] === basketId;
+    const basket = baskets.find(b => b.id === basketId);
+    const correctBasket = baskets.find(b => b.id === food[basketKey]);
+    let delta = 0;
+    let newStreak = state.streak;
+    if (isCorrect) {
+      delta = 10;
+      newStreak = state.streak + 1;
+      if (newStreak >= 3 && newStreak % 3 === 0) delta += 5;
+      if (!muted) { bPlayTone(660, 100); setTimeout(() => bPlayTone(880, 150), 90); }
+    } else {
+      delta = -5;
+      newStreak = 0;
+      if (!muted) bPlayTone(220, 200, 'square');
+    }
+    setPointPop({ value: delta, x, y, key: Date.now() });
+    setTimeout(() => setPointPop(null), 900);
+
+    setFlash({
+      type: isCorrect ? 'correct' : 'wrong',
+      delta,
+      text: isCorrect
+        ? `ถูก! "${food.name}" → ${correctBasket.short || correctBasket.name}`
+        : `ผิด! "${food.name}" ต้องอยู่ใน ${correctBasket.short || correctBasket.name}`,
+    });
+
+    setState(s => ({
+      ...s,
+      score: Math.max(0, s.score + delta),
+      streak: newStreak,
+      bestStreak: Math.max(s.bestStreak, newStreak),
+      correctCount: s.correctCount + (isCorrect ? 1 : 0),
+      history: [...s.history, { food, correct: isCorrect, answeredId: basketId }],
+    }));
+
+    // Auto-advance to next question after brief flash
+    setTimeout(() => {
+      setFlash(null);
+      setState(s => ({ ...s, qIndex: s.qIndex + 1 }));
+    }, 1100);
+  }
+
+  function onPD(e) {
+    if (!food || done || flash || !active) return;
+    const target = cardRef.current;
+    if (!target) return;
+    e.preventDefault();
+    target.setPointerCapture && target.setPointerCapture(e.pointerId);
+    const rect = target.getBoundingClientRect();
+    setDrag({
+      dragging: true,
+      pointerId: e.pointerId,
+      x: e.clientX, y: e.clientY,
+      ox: e.clientX - (rect.left + rect.width/2),
+      oy: e.clientY - (rect.top + rect.height/2),
+    });
+  }
+  function onPM(e) {
+    if (!drag.dragging || e.pointerId !== drag.pointerId) return;
+    setDrag(d => ({ ...d, x: e.clientX, y: e.clientY }));
+    let hit = null;
+    Object.entries(basketRefs.current).forEach(([id, el]) => {
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
+        hit = id;
+      }
+    });
+    setHover(hit);
+  }
+  function onPU(e) {
+    if (!drag.dragging || e.pointerId !== drag.pointerId) return;
+    const wasHover = hover;
+    setDrag(d => ({ ...d, dragging: false }));
+    setHover(null);
+    if (wasHover) handleDrop(wasHover, e.clientX, e.clientY);
+  }
+
+  const dragStyle = drag.dragging ? {
+    position: 'fixed',
+    left: drag.x - drag.ox,
+    top: drag.y - drag.oy,
+    transform: 'translate(-50%, -50%) scale(1.04) rotate(-2deg)',
+    zIndex: 100,
+    transition: 'none',
+  } : {};
+
+  return (
+    <div className={'battle-side battle-side-' + side} style={{borderColor: color}}>
+      {/* Header */}
+      <div className="battle-side-head" style={{background: soft, color: deep}}>
+        <div className="battle-player">
+          <div className="battle-avatar" style={{background: color}}>{avatarEm}</div>
+          <div>
+            <div className="battle-name">{name}</div>
+            <div className="battle-pscore">
+              <span className="bs-score">⭐ {state.score}</span>
+              {state.streak >= 2 && <span className="bs-streak">🔥 ติด {state.streak}</span>}
+              <span className="bs-progress">{Math.min(state.qIndex, questions.length)}/{questions.length}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stage */}
+      <div className="battle-stage">
+        {done ? (
+          <div className="battle-finished" style={{color: deep}}>
+            <div style={{fontSize: 64}}>🏁</div>
+            <div className="battle-finished-text">เล่นจบแล้ว!</div>
+            <div className="battle-finished-sub">รอ{side === 'left' ? 'ฝั่งขวา' : 'ฝั่งซ้าย'}เล่นจบ...</div>
+          </div>
+        ) : (
+          food && (
+            <div
+              ref={cardRef}
+              className={'food-card battle-food ' + (drag.dragging ? 'dragging' : '') + ' ' + (flash ? ('flash-' + flash.type) : '')}
+              onPointerDown={onPD}
+              onPointerMove={onPM}
+              onPointerUp={onPU}
+              onPointerCancel={onPU}
+              style={dragStyle}
+            >
+              <div className="em">{food.em}</div>
+              <div className="name">{food.name}</div>
+            </div>
+          )
+        )}
+
+        {flash && (
+          <div className={'battle-flash ' + ('flash-' + flash.type)}>
+            <div className="bf-em">{flash.type === 'correct' ? '✅' : '❌'}</div>
+            <div className="bf-text">{flash.text}</div>
+            <div className="bf-delta" style={{color: flash.type === 'correct' ? 'var(--g3-deep)' : 'var(--g1-deep)'}}>
+              {flash.delta > 0 ? '+' : ''}{flash.delta} คะแนน
+            </div>
+          </div>
+        )}
+
+        {pointPop && (
+          <div
+            key={pointPop.key}
+            className={'point-pop ' + (pointPop.value > 0 ? 'plus' : 'minus')}
+            style={{left: pointPop.x, top: pointPop.y}}
+          >
+            {pointPop.value > 0 ? '+' : ''}{pointPop.value}
+          </div>
+        )}
+      </div>
+
+      {/* Baskets */}
+      <div className="battle-baskets" style={{'--basket-count': baskets.length}}>
+        {baskets.map(b => (
+          <div
+            key={b.id}
+            ref={el => basketRefs.current[b.id] = el}
+            className={'basket battle-basket ' + (hover === b.id ? 'hover' : '')}
+            style={{
+              '--basket-color': b.color,
+              '--basket-soft': b.soft,
+              color: b.deep,
+            }}
+          >
+            {b.no && <div className="num-badge">{b.no}</div>}
+            <div className="em">{b.em}</div>
+            <div className="lab">{b.short || b.name}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ===== Main Battle Screen =====
+function BattleScreen({ config, finish, go }) {
+  const baskets = config.mode === 'groups' ? window.FOOD_GROUPS : window.NUTRIENTS;
+  const basketKey = config.mode === 'groups' ? 'group' : 'nutrient';
+
+  // Question count from config (battle mode)
+  const qCount = config.questionCount || 10;
+
+  // Independent shuffled questions for each player
+  const questionsP1 = useMemoB(() => shuffleB(window.FOODS).slice(0, qCount), []);
+  const questionsP2 = useMemoB(() => shuffleB(window.FOODS).slice(0, qCount), []);
+
+  const [elapsed, setElapsed] = useStateB(0); // count up, info only
+  const [muted, setMuted] = useStateB(false);
+  const [countdown, setCountdown] = useStateB(3);
+  const [active, setActive] = useStateB(false);
+
+  const [p1, setP1] = useStateB({
+    qIndex: 0, score: 0, streak: 0, bestStreak: 0, correctCount: 0, history: [],
+  });
+  const [p2, setP2] = useStateB({
+    qIndex: 0, score: 0, streak: 0, bestStreak: 0, correctCount: 0, history: [],
+  });
+
+  // Countdown
+  useEffectB(() => {
+    if (countdown < 0) return;
+    if (countdown === 0) {
+      if (!muted) bPlayTone(880, 300);
+      const t = setTimeout(() => { setCountdown(-1); setActive(true); }, 500);
+      return () => clearTimeout(t);
+    }
+    if (!muted) bPlayTone(440 + (3 - countdown) * 80, 120);
+    const t = setTimeout(() => setCountdown(c => c - 1), 800);
+    return () => clearTimeout(t);
+  }, [countdown]);
+
+  // Elapsed timer (count up, no end)
+  useEffectB(() => {
+    if (!active) return;
+    const t = setInterval(() => setElapsed(e => e + 1), 1000);
+    return () => clearInterval(t);
+  }, [active]);
+
+  // End when both done
+  useEffectB(() => {
+    if (active && p1.qIndex >= questionsP1.length && p2.qIndex >= questionsP2.length) {
+      endBattle('both-done');
+    }
+    // eslint-disable-next-line
+  }, [p1.qIndex, p2.qIndex, active]);
+
+  function endBattle(reason) {
+    setActive(false);
+    if (!muted) { bPlayTone(523, 120); setTimeout(() => bPlayTone(659, 120), 110); setTimeout(() => bPlayTone(784, 220), 230); }
+    finish({
+      p1: { ...p1, name: config.player, em: '🦊' },
+      p2: { ...p2, name: config.player2, em: '🐯' },
+      total: qCount,
+      time: elapsed,
+      mode: config.mode,
+      reason,
+    });
+  }
+
+  const timeStr = `${Math.floor(elapsed/60)}:${String(elapsed%60).padStart(2,'0')}`;
+
+  let leader = null;
+  if (p1.score > p2.score) leader = 'left';
+  else if (p2.score > p1.score) leader = 'right';
+
+  return (
+    <div style={{minHeight:'100vh', display:'flex', flexDirection:'column', background: 'var(--bg)'}}>
+      {/* Top bar */}
+      <div className="battle-topbar">
+        <button className="icon-btn" onClick={() => { if (confirm('ออกจากการแข่งขัน?')) go('home'); }}>←</button>
+        <div className="battle-vs-banner">
+          <span className="bvs-name" style={{textAlign: 'right'}}>
+            {config.player}
+            {leader === 'left' && active && <span className="leader-tag">นำ</span>}
+          </span>
+          <span className="bvs-vs">VS</span>
+          <span className="bvs-name">
+            {leader === 'right' && active && <span className="leader-tag">นำ</span>}
+            {config.player2}
+          </span>
+        </div>
+        <div className="battle-timer-wrap">
+          <div className="game-stat time">
+            <span className="em">⏱</span> {timeStr}
+          </div>
+          <button
+            className="icon-btn"
+            onClick={() => { if (confirm('จบการแข่งขันตอนนี้?')) endBattle('manual'); }}
+            title="จบการแข่งขัน"
+            style={{background: 'var(--g1-soft)', color: 'var(--g1-deep)', borderColor: 'var(--g1-soft)'}}
+          >🏁</button>
+          <button className={'icon-btn ' + (muted ? 'muted' : '')} onClick={() => setMuted(m => !m)}>
+            {muted ? '🔇' : '🔊'}
+          </button>
+        </div>
+      </div>
+
+      {/* Split arena */}
+      <div className="battle-arena">
+        <BattleSide
+          side="left"
+          name={config.player}
+          avatarEm="🦊"
+          color="#3B82F6" soft="#DBEAFE" deep="#1D4ED8"
+          questions={questionsP1} baskets={baskets} basketKey={basketKey}
+          state={p1} setState={setP1}
+          active={active} muted={muted}
+        />
+        <div className="battle-divider">
+          <div className="battle-vs-circle">VS</div>
+        </div>
+        <BattleSide
+          side="right"
+          name={config.player2}
+          avatarEm="🐯"
+          color="#EF4444" soft="#FEE4E2" deep="#B91C1C"
+          questions={questionsP2} baskets={baskets} basketKey={basketKey}
+          state={p2} setState={setP2}
+          active={active} muted={muted}
+        />
+      </div>
+
+      {/* Countdown overlay */}
+      {countdown >= 0 && (
+        <div className="battle-countdown-overlay">
+          <div className="battle-countdown-card">
+            <div className="bc-label">เตรียมพร้อม! · {qCount} ข้อ</div>
+            <div className="bc-num" key={countdown}>{countdown === 0 ? 'เริ่ม!' : countdown}</div>
+            <div className="bc-vs">
+              <span>{config.player}</span>
+              <span style={{color: 'var(--ink-mute)', margin: '0 14px'}}>vs</span>
+              <span>{config.player2}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ===== Battle Results =====
+function BattleResultsScreen({ result, go }) {
+  if (!result) {
+    return (
+      <div className="page" style={{textAlign:'center'}}>
+        <h2>ยังไม่มีผลการแข่งขัน</h2>
+        <button className="btn btn-primary" onClick={() => go('home')} style={{marginTop: 16}}>กลับหน้าแรก</button>
+      </div>
+    );
+  }
+  const { p1, p2, total, time } = result;
+  let winner = null, loser = null, draw = false;
+  if (p1.score > p2.score) { winner = p1; loser = p2; }
+  else if (p2.score > p1.score) { winner = p2; loser = p1; }
+  else { draw = true; }
+
+  return (
+    <div className="page page-narrow">
+      <div style={{textAlign:'center', marginBottom: 24}}>
+        <div style={{fontSize: 72, lineHeight: 1}}>{draw ? '🤝' : '🏆'}</div>
+        <h1 style={{fontSize: 40, marginTop: 6}}>
+          {draw ? 'เสมอกัน!' : `${winner.name} ชนะ!`}
+        </h1>
+        <div style={{color: 'var(--ink-soft)', marginTop: 6}}>
+          เวลาที่ใช้แข่ง {Math.floor(time/60)}:{String(time%60).padStart(2,'0')} นาที
+        </div>
+      </div>
+
+      <div className="battle-result-cards">
+        <div className={'br-card ' + (winner === p1 ? 'won' : (loser === p1 ? 'lost' : 'draw'))}>
+          <div className="br-avatar" style={{background: '#3B82F6'}}>{p1.em}</div>
+          <div className="br-name">{p1.name}</div>
+          {winner === p1 && <div className="br-crown">👑 ชนะ</div>}
+          {loser === p1 && <div className="br-crown" style={{color: 'var(--ink-mute)'}}>แพ้</div>}
+          {draw && <div className="br-crown" style={{color: 'var(--g2-deep)'}}>เสมอ</div>}
+          <div className="br-score">{p1.score}</div>
+          <div className="br-of">คะแนน</div>
+          <div className="br-mini-stats">
+            <div><span>ตอบถูก</span> <strong>{p1.correctCount}/{total}</strong></div>
+            <div><span>ต่อเนื่องสูงสุด</span> <strong>{p1.bestStreak}</strong></div>
+            <div><span>เล่นได้</span> <strong>{p1.qIndex}/{total} ข้อ</strong></div>
+          </div>
+        </div>
+
+        <div className="br-vs-mid">⚔️</div>
+
+        <div className={'br-card ' + (winner === p2 ? 'won' : (loser === p2 ? 'lost' : 'draw'))}>
+          <div className="br-avatar" style={{background: '#EF4444'}}>{p2.em}</div>
+          <div className="br-name">{p2.name}</div>
+          {winner === p2 && <div className="br-crown">👑 ชนะ</div>}
+          {loser === p2 && <div className="br-crown" style={{color: 'var(--ink-mute)'}}>แพ้</div>}
+          {draw && <div className="br-crown" style={{color: 'var(--g2-deep)'}}>เสมอ</div>}
+          <div className="br-score">{p2.score}</div>
+          <div className="br-of">คะแนน</div>
+          <div className="br-mini-stats">
+            <div><span>ตอบถูก</span> <strong>{p2.correctCount}/{total}</strong></div>
+            <div><span>ต่อเนื่องสูงสุด</span> <strong>{p2.bestStreak}</strong></div>
+            <div><span>เล่นได้</span> <strong>{p2.qIndex}/{total} ข้อ</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="results-cta" style={{marginTop: 32}}>
+        <button className="btn btn-ghost" onClick={() => go('home')}>← กลับหน้าแรก</button>
+        <button className="btn btn-accent" onClick={() => go('setup')}>แข่งอีกครั้ง 🔁</button>
+        <button className="btn btn-primary" onClick={() => go('leaderboard')}>ดูอันดับ 🏆</button>
+      </div>
+
+      <div className="credit" style={{marginTop: 40}}>
+        จัดทำโดย <strong>ครูธัญพงศ์ พานิชรัมย์</strong> · โรงเรียนลำพะอง (ราษฎร์จำเริญบำรุง)
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { BattleScreen, BattleResultsScreen });
+  </script>
+  <script type="text/babel" data-presets="react">
+// ==========================================================================
+// Results screen
+// ==========================================================================
+
+function ResultsScreen({ result, config, go }) {
+  if (!result) {
+    return (
+      <div className="page" style={{textAlign:'center'}}>
+        <h2>ยังไม่มีผลคะแนน</h2>
+        <button className="btn btn-primary" onClick={() => go('home')} style={{marginTop: 16}}>กลับหน้าแรก</button>
+      </div>
+    );
+  }
+
+  const { score, total, correctCount, time, history, streak, mode } = result;
+  const maxPossible = total * 10;
+  const pct = Math.round(score / maxPossible * 100);
+  const stars = pct >= 80 ? 3 : pct >= 60 ? 2 : pct >= 40 ? 1 : 0;
+  const baskets = mode === 'groups' ? window.FOOD_GROUPS : window.NUTRIENTS;
+  const basketKey = mode === 'groups' ? 'group' : 'nutrient';
+
+  const grade =
+    pct >= 90 ? { t: 'ยอดเยี่ยม!', em: '🏆', msg: 'นักเรียนเข้าใจเรื่องสารอาหารดีมาก' } :
+    pct >= 75 ? { t: 'เก่งมาก!', em: '🌟', msg: 'รู้จักสารอาหารหลายชนิดดีเลย ลองอีกรอบเพื่อให้ครบ' } :
+    pct >= 50 ? { t: 'ผ่าน!', em: '👍', msg: 'พอใช้ได้ ลองทบทวนแล้วกลับมาเล่นอีกครั้งนะ' } :
+                { t: 'พยายามอีกหน่อย', em: '💪', msg: 'อ่านเฉลยและคำอธิบายข้างล่าง แล้วเล่นอีกรอบ' };
+
+  const wrongOnes = history.filter(h => !h.correct);
+
+  return (
+    <div className="page page-narrow">
+      <div className="results-hero">
+        <div style={{fontSize: 80, lineHeight: 1}}>{grade.em}</div>
+        <h1>{grade.t}</h1>
+        <div className="sub">{grade.msg}</div>
+      </div>
+
+      <div className="score-card">
+        <div className="score-big">{score}</div>
+        <div className="score-of">จาก {maxPossible} คะแนน ({pct}%)</div>
+        <div className="star-row">
+          {[0,1,2].map(i => <span key={i} className={'star ' + (i < stars ? 'lit' : '')}>⭐</span>)}
+        </div>
+
+        <div className="result-stats">
+          <div className="result-stat">
+            <div className="num" style={{color: 'var(--g3-deep)'}}>{correctCount}/{total}</div>
+            <div className="lab">ตอบถูก</div>
+          </div>
+          <div className="result-stat">
+            <div className="num" style={{color: 'var(--g4-deep)'}}>{streak}</div>
+            <div className="lab">ติดต่อกันสูงสุด</div>
+          </div>
+          <div className="result-stat">
+            <div className="num" style={{color: 'var(--g5-deep)'}}>{Math.floor(time/60)}:{String(time%60).padStart(2,'0')}</div>
+            <div className="lab">เวลาที่ใช้</div>
+          </div>
+          <div className="result-stat">
+            <div className="num" style={{color: 'var(--g2-deep)'}}>{Math.round(correctCount/total*100)}%</div>
+            <div className="lab">ความแม่นยำ</div>
+          </div>
+        </div>
+
+        <div className="results-cta">
+          <button className="btn btn-ghost" onClick={() => go('home')}>← กลับหน้าแรก</button>
+          <button className="btn btn-accent" onClick={() => go('setup')}>เล่นอีกครั้ง 🔁</button>
+          <button className="btn btn-primary" onClick={() => go('leaderboard')}>ดูอันดับ 🏆</button>
+        </div>
+      </div>
+
+      <div className="review-list">
+        <h3>📋 สรุปผลการเล่นทุกข้อ</h3>
+        {history.map((h, i) => {
+          const correctBasket = baskets.find(b => b.id === h.food[basketKey]);
+          const answeredBasket = baskets.find(b => b.id === h.answeredId);
+          return (
+            <div key={i} className="review-item">
+              <div className="em">{h.food.em}</div>
+              <div>
+                <div className="nm">{h.food.name}</div>
+                <div className="ans">
+                  {h.correct ? (
+                    <>✓ <span className="right">{correctBasket.short || correctBasket.name}</span></>
+                  ) : (
+                    <>
+                      <span className="wrong">{answeredBasket.short || answeredBasket.name}</span>
+                      {' → '}
+                      <span className="right">{correctBasket.short || correctBasket.name}</span>
+                      <div style={{marginTop: 4, color: 'var(--ink-soft)', fontSize: 13}}>💡 {h.food.tip}</div>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div>
+                {h.correct
+                  ? <span className="tag tag-ok">+10</span>
+                  : <span className="tag tag-bad">−5</span>}
+              </div>
+            </div>
+          );
+        })}
+
+        {wrongOnes.length === 0 && (
+          <div style={{textAlign:'center', padding: 24, color: 'var(--g3-deep)', fontFamily: 'Mali, sans-serif', fontSize: 18}}>
+            🎊 ตอบถูกทุกข้อ! เก่งมากๆ
+          </div>
+        )}
+      </div>
+
+      <div className="credit" style={{marginTop: 40}}>
+        จัดทำโดย <strong>ครูธัญพงศ์ พานิชรัมย์</strong> · โรงเรียนลำพะอง (ราษฎร์จำเริญบำรุง)
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { ResultsScreen });
+  </script>
+  <script type="text/babel" data-presets="react">
+// ==========================================================================
+// App — router & state
+// ==========================================================================
+
+const { useState: useStateApp } = React;
+
+function App() {
+  const [screen, setScreen] = useStateApp('home');
+  const [config, setConfig] = useStateApp({
+    mode: 'groups',          // 'groups' | 'nutrients'
+    difficulty: 'easy',      // 'easy' | 'medium' | 'hard' (solo only)
+    playMode: 'solo',        // 'solo' | 'battle'
+    questionCount: 10,       // 10 | 20 | 30 (battle only)
+    player: 'ด.ญ. สมหญิง ใจดี',
+    player2: 'ด.ช. สมชาย เก่งกล้า',
+  });
+  const [result, setResult] = useStateApp(null);
+  const [battleResult, setBattleResult] = useStateApp(null);
+
+  const go = (s) => {
+    setScreen(s);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const finish = (res) => {
+    setResult(res);
+    go('results');
+  };
+
+  const finishBattle = (res) => {
+    setBattleResult(res);
+    go('battle-results');
+  };
+
+  return (
+    <div className="app" data-screen-label={screen}>
+      {screen !== 'game' && screen !== 'battle' && <TopNav screen={screen} go={go} />}
+
+      {screen === 'home' && <HomeScreen go={go} />}
+      {screen === 'setup' && <SetupScreen config={config} setConfig={setConfig} go={go} />}
+      {screen === 'game' && <GameScreen config={config} finish={finish} go={go} />}
+      {screen === 'battle' && <BattleScreen config={config} finish={finishBattle} go={go} />}
+      {screen === 'results' && <ResultsScreen result={result} config={config} go={go} />}
+      {screen === 'battle-results' && <BattleResultsScreen result={battleResult} go={go} />}
+      {screen === 'leaderboard' && <LeaderboardScreen />}
+      {screen === 'teacher' && <TeacherScreen />}
+    </div>
+  );
+}
+
+const rootEl = document.getElementById('root');
+ReactDOM.createRoot(rootEl).render(<App />);
+  </script>
+</body>
+</html>
