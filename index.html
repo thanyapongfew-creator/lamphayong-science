@@ -1445,6 +1445,7 @@ window.STUDENTS = [
 // ตัวอย่างกิจกรรมในระบบ
 window.ACTIVITIES = [
   { id: 'nutrition', subject: 'วิทย์ ป.6', title: 'เกมจับคู่สารอาหาร', desc: 'ลากอาหารใส่ตะกร้าให้ตรงหมู่ 5 หมู่ หรือ 6 สารอาหาร', em: '🍎', tag: 'ใหม่!', ribbon: 'new', time: '10–20 นาที', plays: 247, available: true },
+  { id: 'memory', subject: 'วิทย์ ป.6', title: 'เกมเปิดป้ายจับคู่', desc: 'เปิดป้ายจับคู่อาหารกับหมู่อาหาร 5 หมู่ ฝึกความจำ', em: '🃏', tag: 'ใหม่!', ribbon: 'new', time: '5–10 นาที', plays: 0, available: true, href: 'memory-match.html' },
   { id: 'eco', subject: 'วิทย์ ป.6', title: 'ห่วงโซ่อาหารในระบบนิเวศ', desc: 'ลากผู้ผลิต–ผู้บริโภคให้ครบลำดับ', em: '🦋', tag: 'เร็วๆ นี้', ribbon: 'soon', time: '15 นาที', plays: 0, available: false },
   { id: 'solar', subject: 'วิทย์ ป.6', title: 'ระบบสุริยะของเรา', desc: 'จัดเรียงดาวเคราะห์ตามระยะจากดวงอาทิตย์', em: '🪐', tag: 'เร็วๆ นี้', ribbon: 'soon', time: '10 นาที', plays: 0, available: false },
   { id: 'circuit', subject: 'วิทย์ ป.6', title: 'ต่อวงจรไฟฟ้า', desc: 'ทดลองต่อวงจรอนุกรม–ขนาน บนกระดานเสมือนจริง', em: '💡', tag: 'เร็วๆ นี้', ribbon: 'soon', time: '20 นาที', plays: 0, available: false },
@@ -1457,6 +1458,99 @@ window.SUBJECTS = [
   { id: 's4', name: 'หิน ดิน น้ำ ฟ้า', em: '🌎', color: '#06B6D4', soft: '#CFFAFE', count: 0, total: 4, progress: 0 },
   { id: 's5', name: 'ดาราศาสตร์', em: '🌌', color: '#8B5CF6', soft: '#EDE9FE', count: 0, total: 3, progress: 0 },
 ];
+
+// ==========================================================================
+// เพลงแบ็คกราวด์ (procedural ambient — pentatonic, WebAudio)
+// ==========================================================================
+window.__music = window.__music || (function() {
+  const state = {
+    started: false,
+    muted: localStorage.getItem('vt-music-muted') === '1',
+    ctx: null, master: null, interval: null, beat: 0,
+    listeners: new Set(),
+  };
+  const SCALE = [261.63, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99, 880.00, 1046.50]; // C major pentatonic + extras
+  const BASS  = [130.81, 110.00, 87.31, 98.00]; // C3 A2 F2 G2
+  const BEAT_MS = 480;
+  const BEATS_PER_CHORD = 8;
+
+  function getCtx() {
+    return window.__audioCtx || window.__ac || (window.__audioCtx = new (window.AudioContext || window.webkitAudioContext)());
+  }
+  function envBass(freq, dur, when) {
+    const osc = state.ctx.createOscillator();
+    const g = state.ctx.createGain();
+    osc.type = 'sine'; osc.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.exponentialRampToValueAtTime(0.16, when + 0.6);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    osc.connect(g).connect(state.master);
+    osc.start(when); osc.stop(when + dur + 0.1);
+  }
+  function envBell(freq, when) {
+    const osc = state.ctx.createOscillator();
+    const g = state.ctx.createGain();
+    osc.type = 'triangle'; osc.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.exponentialRampToValueAtTime(0.085, when + 0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + 1.4);
+    osc.connect(g).connect(state.master);
+    osc.start(when); osc.stop(when + 1.45);
+  }
+  function tick() {
+    if (!state.ctx) return;
+    const now = state.ctx.currentTime + 0.05;
+    if (state.beat % BEATS_PER_CHORD === 0) {
+      const note = BASS[(state.beat / BEATS_PER_CHORD) % BASS.length];
+      envBass(note, BEATS_PER_CHORD * BEAT_MS / 1000, now);
+      // companion fifth
+      envBass(note * 1.5, BEATS_PER_CHORD * BEAT_MS / 1000 * 0.8, now + 0.1);
+    }
+    if (Math.random() < 0.38) {
+      const f = SCALE[Math.floor(Math.random() * SCALE.length)];
+      envBell(f, now + Math.random() * 0.25);
+    }
+    state.beat++;
+  }
+  function start() {
+    if (state.started) return;
+    state.ctx = getCtx();
+    if (state.ctx.state === 'suspended') state.ctx.resume();
+    state.master = state.ctx.createGain();
+    state.master.gain.value = state.muted ? 0 : 0.06;
+    state.master.connect(state.ctx.destination);
+    state.interval = setInterval(tick, BEAT_MS);
+    state.started = true;
+  }
+  function setMuted(m) {
+    state.muted = !!m;
+    try { localStorage.setItem('vt-music-muted', m ? '1' : '0'); } catch(e) {}
+    if (state.master) {
+      state.master.gain.setTargetAtTime(state.muted ? 0 : 0.06, state.ctx.currentTime, 0.15);
+    }
+    state.listeners.forEach(fn => { try { fn(state.muted); } catch(e){} });
+  }
+  function isMuted() { return state.muted; }
+  function subscribe(fn) { state.listeners.add(fn); return () => state.listeners.delete(fn); }
+
+  // เริ่มอัตโนมัติเมื่อมีการแตะหน้าจอครั้งแรก (browser autoplay policy)
+  const armHandler = () => {
+    start();
+    window.removeEventListener('pointerdown', armHandler);
+    window.removeEventListener('keydown', armHandler);
+  };
+  window.addEventListener('pointerdown', armHandler, { once: false });
+  window.addEventListener('keydown', armHandler, { once: false });
+
+  return { start, setMuted, isMuted, subscribe };
+})();
+
+// React hook สำหรับฟังสถานะเพลง
+window.useMusicMuted = function useMusicMuted() {
+  const [m, set] = React.useState(window.__music.isMuted());
+  React.useEffect(() => window.__music.subscribe(set), []);
+  return [m, (v) => window.__music.setMuted(v)];
+};
   </script>
   <script type="text/babel" data-presets="react">
 // ==========================================================================
@@ -1466,6 +1560,7 @@ window.SUBJECTS = [
 const { useState } = React;
 
 function TopNav({ screen, go }) {
+  const [musicMuted, setMusicMuted] = window.useMusicMuted();
   const items = [
     { id: 'home', label: 'หน้าแรก', em: '🏠' },
     { id: 'leaderboard', label: 'อันดับ', em: '🏆' },
@@ -1503,6 +1598,14 @@ function TopNav({ screen, go }) {
           </button>
         ))}
       </nav>
+      <button
+        className={'icon-btn ' + (musicMuted ? 'muted' : '')}
+        onClick={() => setMusicMuted(!musicMuted)}
+        title={musicMuted ? 'เปิดเพลงประกอบ' : 'ปิดเพลงประกอบ'}
+        style={{marginRight: 4}}
+      >
+        🎵
+      </button>
       <div className="user-chip">
         <span className="avatar">ธ</span>
         <span>ครูธัญพงศ์</span>
@@ -1566,7 +1669,7 @@ function HomeScreen({ go }) {
           <button
             key={a.id}
             className={'activity-card ' + (a.available ? '' : 'coming-soon')}
-            onClick={() => a.available && go('setup')}
+            onClick={() => a.available && (a.href ? (window.location.href = a.href) : go('setup'))}
             disabled={!a.available}
           >
             <span className={'ribbon ' + a.ribbon}>{a.tag}</span>
@@ -1586,6 +1689,14 @@ function HomeScreen({ go }) {
                   <span style={{top: 22, right: 28, fontSize: 26, transform: 'rotate(15deg)'}}>🥚</span>
                   <span style={{bottom: 12, left: 36, fontSize: 24, transform: 'rotate(8deg)'}}>🍞</span>
                   <span style={{bottom: 18, right: 18, fontSize: 30, transform: 'rotate(-6deg)'}}>🥛</span>
+                </div>
+              )}
+              {a.id === 'memory' && (
+                <div className="floaters">
+                  <span style={{top: 14, left: 22, fontSize: 26, transform: 'rotate(-10deg)'}}>🍎</span>
+                  <span style={{top: 20, right: 26, fontSize: 26, transform: 'rotate(12deg)'}}>🥦</span>
+                  <span style={{bottom: 14, left: 34, fontSize: 24, transform: 'rotate(6deg)'}}>🍚</span>
+                  <span style={{bottom: 16, right: 22, fontSize: 28, transform: 'rotate(-8deg)'}}>🧈</span>
                 </div>
               )}
             </div>
@@ -2019,6 +2130,7 @@ function GameScreen({ config, finish, go }) {
   const [feedback, setFeedback] = useStateG(null); // { correct, food, msg }
   const [time, setTime] = useStateG(diff.time || 0); // countdown or up
   const [muted, setMuted] = useStateG(false);
+  const [musicMuted, setMusicMuted] = window.useMusicMuted();
   const [pointPop, setPointPop] = useStateG(null);
   const [hoverBasket, setHoverBasket] = useStateG(null);
   const [dragState, setDragState] = useStateG({ dragging: false, x: 0, y: 0, ox: 0, oy: 0, animating: null });
@@ -2186,7 +2298,10 @@ function GameScreen({ config, finish, go }) {
           <div className={'game-stat time ' + (danger ? 'danger' : '')}>
             <span className="em">⏱</span> {timeStr}
           </div>
-          <button className={'icon-btn ' + (muted ? 'muted' : '')} onClick={() => setMuted(m => !m)} title="เปิด/ปิดเสียง">
+          <button className={'icon-btn ' + (musicMuted ? 'muted' : '')} onClick={() => setMusicMuted(!musicMuted)} title="เปิด/ปิดเพลงประกอบ">
+            🎵
+          </button>
+          <button className={'icon-btn ' + (muted ? 'muted' : '')} onClick={() => setMuted(m => !m)} title="เปิด/ปิดเสียงเอฟเฟกต์">
             {muted ? '🔇' : '🔊'}
           </button>
         </div>
@@ -2516,6 +2631,7 @@ function BattleScreen({ config, finish, go }) {
 
   const [elapsed, setElapsed] = useStateB(0); // count up, info only
   const [muted, setMuted] = useStateB(false);
+  const [musicMuted, setMusicMuted] = window.useMusicMuted();
   const [countdown, setCountdown] = useStateB(3);
   const [active, setActive] = useStateB(false);
 
@@ -2599,7 +2715,10 @@ function BattleScreen({ config, finish, go }) {
             title="จบการแข่งขัน"
             style={{background: 'var(--g1-soft)', color: 'var(--g1-deep)', borderColor: 'var(--g1-soft)'}}
           >🏁</button>
-          <button className={'icon-btn ' + (muted ? 'muted' : '')} onClick={() => setMuted(m => !m)}>
+          <button className={'icon-btn ' + (musicMuted ? 'muted' : '')} onClick={() => setMusicMuted(!musicMuted)} title="เปิด/ปิดเพลงประกอบ">
+            🎵
+          </button>
+          <button className={'icon-btn ' + (muted ? 'muted' : '')} onClick={() => setMuted(m => !m)} title="เปิด/ปิดเสียงเอฟเฟกต์">
             {muted ? '🔇' : '🔊'}
           </button>
         </div>
